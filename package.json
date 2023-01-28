@@ -1,0 +1,43 @@
+{
+  "name": "vue3-stepper",
+  "description": "A simple Vue 3 Stepper plugin",
+  "version": "1.0.0",
+  "private": true,
+  "author": {
+    "name": "Mike Konstantakos"
+  },
+  "repository": "https://github.com/Laximas/vue3-stepper",
+  "bugs": "https://github.com/Laximas/vue3-stepper/issues",
+  "keywords": [
+    "vue3",
+    "vue",
+    "stepper",
+    "vue-stepper",
+    "vue3-stepper"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "main": ".dist/vue-hello-world-simple.common.js",
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "node-sass": "^8.0.0",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "vite": "^4.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.13"
+  }
+}
