@@ -143,7 +143,7 @@ This software uses the following open source packages:
 
 ## License
 
-MIT
+[MIT](https://github.com/Laximas/vue3-stepper/blob/main/LICENSE.md)
 
 ---
 
