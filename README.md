@@ -160,10 +160,11 @@ This software uses the following open source packages:
 - [sass-loader](https://www.npmjs.com/package/sass-loader)
 - [node-sass](https://www.npmjs.com/package/node-sass)
 - [gh-pages](https://www.npmjs.com/package/gh-pages)
+- [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
 
 ## Support
 
-<a href="https://www.buymeacoffee.com/laximas" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/laximas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## License
 
