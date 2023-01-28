@@ -129,6 +129,26 @@ doneText: {
   type: String,
 default: 'Done'
 },
+
+/**
+ * Primary Color 1
+ * @type {String}
+ */
+,
+primaryColor1: {
+  type: String,
+  default: 'orange'
+},
+
+/**
+ * Primary Color 2
+ * @type {String}
+ */
+,
+primaryColor2: {
+  type: String,
+  default: '#C5C5C5'
+}
 ```
 
 ## Credits

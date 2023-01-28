@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-stepper">
+  <div class="wrapper-stepper" :style="cssVars">
     <div class="stepper">
       <div class="stepper-progress">
         <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
@@ -83,6 +83,21 @@ const props = defineProps({
   doneText: {
     type: String,
     default: 'Done'
+  },
+  primaryColor1: {
+    type: String,
+    default: 'orange'
+  },
+  primaryColor2: {
+    type: String,
+    default: '#C5C5C5'
+  }
+})
+
+const cssVars = computed(() => {
+  return {
+    '--primaryColor1': props.primaryColor1,
+    '--primaryColor2': props.primaryColor2
   }
 })
 
@@ -102,8 +117,8 @@ const stepperProgress = computed(() => {
 </script>
 
 <style scoped lang="scss">
-$default-1: #C5C5C5;
-$default-2: orange;
+$primary-1: var(--primaryColor1);
+$primary-2: var(--primaryColor2);
 $transition: all 500ms ease;
 
 body {
@@ -118,7 +133,7 @@ body {
 }
 
 .tx-default-2 {
-  color: $default-2;
+  color: $primary-1;
   font-weight: 600;
 }
 
@@ -140,7 +155,7 @@ body {
 
   &-progress {
     position: absolute;
-    background-color: $default-1;
+    background-color: $primary-2;
     height: 2px;
     z-index: -1;
     left: 0;
@@ -152,7 +167,7 @@ body {
       left: 0;
       height: 100%;
       width: 0;
-      background-color: $default-2;
+      background-color: $primary-1;
       transition: $transition;
     }
   }
@@ -162,7 +177,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: $default-1;
+  color: $primary-2;
   transition: $transition;
 
   &-counter {
@@ -172,7 +187,7 @@ body {
     place-items: center;
     background-color: #fff;
     border-radius: 100%;
-    border: 2px solid $default-1;
+    border: 2px solid $primary-2;
     position: relative;
 
     .icon-success {
@@ -199,7 +214,7 @@ body {
 
 .stepper-item.success {
   .stepper-item-counter {
-    border-color: $default-2;
+    border-color: $primary-1;
     background-color: #fff;
     color: #fff;
     font-weight: 600;
@@ -216,14 +231,14 @@ body {
   }
 
   .stepper-item-title {
-    color: $default-2;
+    color: $primary-1;
   }
 }
 
 .stepper-item.current {
   .stepper-item-counter {
-    border-color: $default-2;
-    background-color: $default-2;
+    border-color: $primary-1;
+    background-color: $primary-1;
     color: #fff;
     font-weight: 600;
   }
@@ -268,8 +283,8 @@ body {
   }
 
   &--default-2 {
-    background-color: $default-2;
-    border-color: $default-2;
+    background-color: $primary-1;
+    border-color: $primary-1;
     color: #fff;
     margin-left: auto;
   }
