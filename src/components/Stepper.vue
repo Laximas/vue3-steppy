@@ -8,7 +8,8 @@
       <div class="stepper-item" :class="{ 'current': props.step === index + 1, 'success': props.step > index + 1 }" v-for="(item, index) in props.tabs"
            :key="index">
         <div class="stepper-item-counter">
-          <img class="icon-success" :src="item.iconSuccess" alt="Check Mark">
+          <img v-if="item.iconSuccess" class="icon-success" :src="item.iconSuccess" alt="Check Mark"/>
+          <CheckMark v-else class="icon-success" :color="primaryColor1" alt="Check Mark"/>
           <span class="number">{{ index + 1 }}</span>
         </div>
         <span class="stepper-item-title">{{ item.title }}</span>
@@ -37,7 +38,7 @@
 
 <script setup>
 import {computed, reactive} from "vue";
-import CheckMark from '../assets/check-mark.png'
+import CheckMark from './CheckMark.vue'
 
 const emit = defineEmits(['update:step'])
 
@@ -51,17 +52,17 @@ const props = defineProps({
     default: reactive([
       {
         title: 'Step 1',
-        iconSuccess: CheckMark,
+        iconSuccess: null,
         isValid: true
       },
       {
         title: 'Step 2',
-        iconSuccess: CheckMark,
+        iconSuccess: null,
         isValid: true
       },
       {
         title: 'Step 3',
-        iconSuccess: CheckMark,
+        iconSuccess: null,
         isValid: true
       }
     ])

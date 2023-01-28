@@ -67,26 +67,30 @@ step: {
 
 /**
  * Contains the steps with custom titles and icons.
- * @param {Image} iconSuccess - import CheckMark from '../assets/check-mark.png'
- * @param {boolean} isValid - Used to determine if the user can move to the next step.
  * @type {Array}
+ * 
+ * @param {Image} iconSuccess - You can point to an imported icon from you assets like:
+ * import CheckMark from '../assets/check-mark.png'
+ * If you set it to null, a default SVG will be used with primary color 1.
+ * 
+ * @param {boolean} isValid - Used to determine if the user can move to the next step.
  */
 tabs: {
   type: Array,
   default: reactive([
     {
       title: 'Step 1',
-      iconSuccess: CheckMark,
+      iconSuccess: null,
       isValid: true
     },
     {
       title: 'Step 2',
-      iconSuccess: CheckMark,
+      iconSuccess: null,
       isValid: true
     },
     {
       title: 'Step 3',
-      iconSuccess: CheckMark,
+      iconSuccess: null,
       isValid: true
     }
   ])
