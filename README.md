@@ -136,6 +136,12 @@ default: 'Done'
 This software uses the following open source packages:
 
 - [Vue 3](https://vuejs.org)
+- [Vite](https://vitejs.dev)
+- [core-js](https://www.npmjs.com/package/core-js)
+- [sass](https://www.npmjs.com/package/sass)
+- [sass-loader](https://www.npmjs.com/package/sass-loader)
+- [node-sass](https://www.npmjs.com/package/node-sass)
+- [gh-pages](https://www.npmjs.com/package/gh-pages)
 
 ## Support
 
