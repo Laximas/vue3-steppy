@@ -1,15 +1,9 @@
-
-<!--suppress ALL -->
-
-<h1 align="center">Vue 3 Stepper</h1>
+<h1 align="center">Steppy</h1>
 
 <h4 align="center">A simple Stepper component for Vue 3</h4>
 
 <p align="center">
-  <a href="">
-    <img src=""
-         alt="npm">
-  </a>
+  <a href="https://badge.fury.io/js/vue3-steppy"><img src="https://badge.fury.io/js/vue3-steppy.svg" alt="npm version" height="18"></a>
 </p>
 
 <p align="center">
@@ -22,7 +16,7 @@
 
 ## Demo
 
-You can try a live demo [here](https://laximas.github.io/vue3-stepper/)
+You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
 
 ## Key Features
 
@@ -30,27 +24,27 @@ You can try a live demo [here](https://laximas.github.io/vue3-stepper/)
 * Change step content
 * Configure finalization
 * Customizable
-    - Colors
-    - Titles
-    - Icons
-    - Button text
+  - Colors
+  - Titles
+  - Icons
+  - Button text
 
 ## How To Use
 Install
 ```bash
-$ npm install vue3-stepper
+$ npm install vue3-steppy
 ```
 Import
 ```js
-import Stepper from 'vue3-stepper'
+import {Steppy} from 'vue3-steppy'
 ```
 Template
 ```html
-<Stepper v-model:step="step">
+<Steppo v-model:step="step">
   <template #1><!-- Step 1 Content --></template>
   <template #2><!-- Step 2 Content --></template>
   <template #3><!-- Step 3 Content --></template>
-</Stepper>
+</Steppo>
 ```
 API Props
 ```js
@@ -97,11 +91,11 @@ tabs: {
 },
 
 /**
- * Method that will run after all steps are completed (done button is clicked).
+ * Function that will run after all steps are completed (done button is clicked).
  * @type {Object}
  */
 finalize: {
-  type: Object,
+  type: Function,
 default: function () {
     return {}
   }
@@ -173,7 +167,7 @@ This software uses the following open source packages:
 
 ## License
 
-[MIT](https://github.com/Laximas/vue3-stepper/blob/main/LICENSE.md)
+[MIT](https://github.com/Laximas/vue3-steppy/blob/main/LICENSE.md)
 
 ---
 

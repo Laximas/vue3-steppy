@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import Stepper from "@/components/Stepper.vue";
+import Stepper from "@/components/Steppy.vue";
 import {ref} from "vue";
 
 const step = ref(1);

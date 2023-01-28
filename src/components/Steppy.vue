@@ -1,23 +1,23 @@
 <template>
-  <div class="wrapper-stepper" :style="cssVars">
-    <div class="stepper">
-      <div class="stepper-progress">
-        <div class="stepper-progress-bar" :style="'width:' + stepperProgress "></div>
+  <div class="wrapper-steppy" :style="cssVars">
+    <div class="steppy">
+      <div class="steppy-progress">
+        <div class="steppy-progress-bar" :style="'width:' + steppyProgress "></div>
       </div>
 
-      <div class="stepper-item" :class="{ 'current': props.step === index + 1, 'success': props.step > index + 1 }" v-for="(item, index) in props.tabs"
+      <div class="steppy-item" :class="{ 'current': props.step === index + 1, 'success': props.step > index + 1 }" v-for="(item, index) in props.tabs"
            :key="index">
-        <div class="stepper-item-counter">
+        <div class="steppy-item-counter">
           <img v-if="item.iconSuccess" class="icon-success" :src="item.iconSuccess" alt="Check Mark"/>
           <CheckMark v-else class="icon-success" :color="primaryColor1" alt="Check Mark"/>
           <span class="number">{{ index + 1 }}</span>
         </div>
-        <span class="stepper-item-title">{{ item.title }}</span>
+        <span class="steppy-item-title">{{ item.title }}</span>
       </div>
     </div>
 
-    <div class="stepper-content" v-for="index in props.tabs.length" :key="index">
-      <div class="stepper-pane" v-if="props.step === index">
+    <div class="steppy-content" v-for="index in props.tabs.length" :key="index">
+      <div class="steppy-pane" v-if="props.step === index">
         <slot :name="index"></slot>
       </div>
     </div>
@@ -68,7 +68,7 @@ const props = defineProps({
     ])
   },
   finalize: {
-    type: Object,
+    type: Function,
     default: function () {
       return {}
     }
@@ -112,7 +112,7 @@ const decrementStep = () => {
   emit('update:step', step)
 }
 
-const stepperProgress = computed(() => {
+const steppyProgress = computed(() => {
   return (100 / (props.tabs.length - 1)) * (props.step - 1) + '%'
 })
 </script>
@@ -138,14 +138,14 @@ body {
   font-weight: 600;
 }
 
-.wrapper-stepper {
+.wrapper-steppy {
   background-color: #fff;
   padding: 60px;
   border-radius: 32px;
   box-shadow: rgba($color: #000000, $alpha: 0.09);
 }
 
-.stepper {
+.steppy {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,7 +174,7 @@ body {
   }
 }
 
-.stepper-item {
+.steppy-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,8 +213,8 @@ body {
   }
 }
 
-.stepper-item.success {
-  .stepper-item-counter {
+.steppy-item.success {
+  .steppy-item-counter {
     border-color: $primary-1;
     background-color: #fff;
     color: #fff;
@@ -231,25 +231,25 @@ body {
     }
   }
 
-  .stepper-item-title {
+  .steppy-item-title {
     color: $primary-1;
   }
 }
 
-.stepper-item.current {
-  .stepper-item-counter {
+.steppy-item.current {
+  .steppy-item-counter {
     border-color: $primary-1;
     background-color: $primary-1;
     color: #fff;
     font-weight: 600;
   }
 
-  .stepper-item-title {
+  .steppy-item-title {
     color: #818181;
   }
 }
 
-.stepper-pane {
+.steppy-pane {
   color: #333;
   text-align: center;
   padding: 25px 25px;

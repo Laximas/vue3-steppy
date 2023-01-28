@@ -1,25 +1,40 @@
 {
-  "name": "vue3-stepper",
+  "name": "vue3-steppy",
   "description": "A simple Vue 3 Stepper plugin",
   "version": "1.0.0",
-  "private": true,
-  "author": {
-    "name": "Mike Konstantakos"
+  "type": "module",
+  "private": false,
+  "author": "Mike Konstantakos",
+  "homepage": "https://laximas.github.io/vue3-steppy/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Laximas/vue3-steppy.git"
   },
-  "homepage": "https://laximas.github.io/vue3-stepper/",
-  "repository": "https://github.com/Laximas/vue3-stepper",
-  "bugs": "https://github.com/Laximas/vue3-stepper/issues",
+  "bugs": {
+    "url": "https://github.com/Laximas/vue3-steppy/issues"
+  },
   "keywords": [
     "vue3",
     "vue",
     "stepper",
+    "steppy",
     "vue-stepper",
-    "vue3-stepper"
+    "vue-steppy",
+    "vue3-stepper",
+    "vue3-steppy"
   ],
   "license": "MIT",
   "files": [
     "dist"
   ],
+  "main": "./dist/vue3-steppy.umd.cjs",
+  "module": "./dist/vue3-steppy.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3-steppy.js",
+      "require": "./dist/vue3-steppy.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -27,9 +42,9 @@
     "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
-  "main": ".dist/vue-hello-world-simple.common.js",
   "dependencies": {
     "core-js": "^3.8.3",
+    "vite-plugin-css-injected-by-js": "^2.4.0",
     "vue": "^3.2.13"
   },
   "devDependencies": {
@@ -41,7 +56,7 @@
     "sass-loader": "^13.2.0",
     "vite": "^4.0.0"
   },
-  "peerDependencies": {
-    "vue": "^3.2.13"
+  "directories": {
+    "lib": "lib"
   }
 }
