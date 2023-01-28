@@ -6,6 +6,7 @@
   "author": {
     "name": "Mike Konstantakos"
   },
+  "homepage": "https://laximas.github.io/vue3-stepper/",
   "repository": "https://github.com/Laximas/vue3-stepper",
   "bugs": "https://github.com/Laximas/vue3-stepper/issues",
   "keywords": [
@@ -22,6 +23,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
   "main": ".dist/vue-hello-world-simple.common.js",
@@ -32,6 +35,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/cli-service": "~5.0.0",
+    "gh-pages": "^5.0.0",
     "node-sass": "^8.0.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
