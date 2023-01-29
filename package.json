@@ -1,7 +1,7 @@
 {
   "name": "vue3-steppy",
   "description": "A simple Vue 3 Stepper plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "private": false,
   "author": "Mike Konstantakos",
@@ -40,16 +40,21 @@
     "build": "vite build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },
   "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.4",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
     "gh-pages": "^5.0.0",
+    "prettier": "^2.7.1",
     "vite": "^4.0.0",
     "vite-plugin-css-injected-by-js": "^2.4.0"
   },

@@ -1,34 +1,32 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import { resolve } from "node:path";
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 export default defineConfig({
-  base: '/vue3-steppy/',
-  plugins: [
-      vue(),
-      cssInjectedByJsPlugin()
-  ],
+  base: "/vue3-steppy/",
+  plugins: [vue(), cssInjectedByJsPlugin()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'lib/main.js'),
-      name: 'vue3-steppy',
-      fileName: 'vue3-steppy'
+      // eslint-disable-next-line no-undef
+      entry: resolve(__dirname, "lib/main.js"),
+      name: "vue3-steppy",
+      fileName: "vue3-steppy",
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ["vue"],
       output: {
         globals: {
-          vue: 'Vue',
+          vue: "Vue",
         },
       },
     },
-  }
-})
+  },
+});

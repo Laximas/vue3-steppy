@@ -10,7 +10,7 @@
   <a href="#demo">Demo</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#credits">Credits</a> •
+  <a href="#dependencies">Dependencies</a> •
   <a href="#license">License</a>
 </p>
 
@@ -149,16 +149,16 @@ primaryColor2: {
 }
 ```
 
-## Credits
+## Dependencies
 
 This software uses the following open source packages:
 
 - [Vue 3](https://vuejs.org)
+
+#### Dev Dependencies
 - [Vite](https://vitejs.dev)
-- [core-js](https://www.npmjs.com/package/core-js)
-- [sass](https://www.npmjs.com/package/sass)
-- [sass-loader](https://www.npmjs.com/package/sass-loader)
-- [node-sass](https://www.npmjs.com/package/node-sass)
+- [Eslint](https://eslint.org)
+- [Prettier](https://prettier.io)
 - [gh-pages](https://www.npmjs.com/package/gh-pages)
 - [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
 

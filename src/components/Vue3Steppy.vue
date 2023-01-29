@@ -2,14 +2,34 @@
   <div class="wrapper-steppy" :style="cssVars">
     <div class="steppy">
       <div class="steppy-progress">
-        <div class="steppy-progress-bar" :style="'width:' + steppyProgress "></div>
+        <div
+          class="steppy-progress-bar"
+          :style="'width:' + steppyProgress"
+        ></div>
       </div>
 
-      <div class="steppy-item" :class="{ 'current': props.step === index + 1, 'success': props.step > index + 1 }" v-for="(item, index) in props.tabs"
-           :key="index">
+      <div
+        class="steppy-item"
+        :class="{
+          current: props.step === index + 1,
+          success: props.step > index + 1,
+        }"
+        v-for="(item, index) in props.tabs"
+        :key="index"
+      >
         <div class="steppy-item-counter">
-          <img v-if="item.iconSuccess" class="icon-success" :src="item.iconSuccess" alt="Check Mark"/>
-          <CheckMark v-else class="icon-success" :color="primaryColor1" alt="Check Mark"/>
+          <img
+            v-if="item.iconSuccess"
+            class="icon-success"
+            :src="item.iconSuccess"
+            alt="Check Mark"
+          />
+          <CheckMark
+            v-else
+            class="icon-success"
+            :color="primaryColor1"
+            alt="Check Mark"
+          />
           <span class="number">{{ index + 1 }}</span>
         </div>
         <span class="steppy-item-title">{{ item.title }}</span>
@@ -26,10 +46,20 @@
       <button class="btn" @click="decrementStep" v-if="props.step !== 1">
         {{ props.backText }}
       </button>
-      <button class="btn btn--default-2" @click="incrementStep" v-if="props.step !== props.tabs.length" :disabled="!props.tabs[props.step-1].isValid">
+      <button
+        class="btn btn--default-2"
+        @click="incrementStep"
+        v-if="props.step !== props.tabs.length"
+        :disabled="!props.tabs[props.step - 1].isValid"
+      >
         {{ props.nextText }}
       </button>
-      <button class="btn btn--default-2" @click="finalize" v-else :disabled="!props.tabs[props.step-1].isValid">
+      <button
+        class="btn btn--default-2"
+        @click="finalize"
+        v-else
+        :disabled="!props.tabs[props.step - 1].isValid"
+      >
         {{ props.doneText }}
       </button>
     </div>
@@ -37,84 +67,84 @@
 </template>
 
 <script setup>
-import {computed, reactive} from "vue";
-import CheckMark from './CheckMark.vue'
+import { computed, reactive } from "vue";
+import CheckMark from "./CheckMark.vue";
 
-const emit = defineEmits(['update:step'])
+const emit = defineEmits(["update:step"]);
 
 const props = defineProps({
   step: {
     type: Number,
-    default: 1
+    default: 1,
   },
   tabs: {
     type: Array,
     default: reactive([
       {
-        title: 'Step 1',
+        title: "Step 1",
         iconSuccess: null,
-        isValid: true
+        isValid: true,
       },
       {
-        title: 'Step 2',
+        title: "Step 2",
         iconSuccess: null,
-        isValid: true
+        isValid: true,
       },
       {
-        title: 'Step 3',
+        title: "Step 3",
         iconSuccess: null,
-        isValid: true
-      }
-    ])
+        isValid: true,
+      },
+    ]),
   },
   finalize: {
     type: Function,
     default: function () {
-      return {}
-    }
+      return {};
+    },
   },
   backText: {
     type: String,
-    default: 'Back'
+    default: "Back",
   },
   nextText: {
     type: String,
-    default: 'Next'
+    default: "Next",
   },
   doneText: {
     type: String,
-    default: 'Done'
+    default: "Done",
   },
   primaryColor1: {
     type: String,
-    default: 'orange'
+    default: "orange",
   },
   primaryColor2: {
     type: String,
-    default: '#C5C5C5'
-  }
-})
+    default: "#C5C5C5",
+  },
+});
 
 const cssVars = computed(() => {
   return {
-    '--primaryColor1': props.primaryColor1,
-    '--primaryColor2': props.primaryColor2
-  }
-})
+    "--primaryColor1": props.primaryColor1,
+    "--primaryColor2": props.primaryColor2,
+  };
+});
 
 const incrementStep = () => {
-  const step = props.step + 1
-  emit('update:step', step)
-}
+  const step = props.step + 1;
+  emit("update:step", step);
+};
 
 const decrementStep = () => {
-  const step = props.step - 1
-  emit('update:step', step)
-}
+  const step = props.step - 1;
+  emit("update:step", step);
+};
 
 const steppyProgress = computed(() => {
-  return (100 / (props.tabs.length - 1)) * (props.step - 1) + '%'
-})
+  return (100 / (props.tabs.length - 1)) * (props.step - 1) + "%";
+});
 </script>
 
 <style scoped lang="scss">
