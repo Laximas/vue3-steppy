@@ -40,11 +40,11 @@ import {Steppy} from 'vue3-steppy'
 ```
 Template
 ```html
-<Steppo v-model:step="step">
+<Steppy v-model:step="step">
   <template #1><!-- Step 1 Content --></template>
   <template #2><!-- Step 2 Content --></template>
   <template #3><!-- Step 3 Content --></template>
-</Steppo>
+</Steppy>
 ```
 API Props
 ```js
