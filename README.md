@@ -1,6 +1,6 @@
 <h1 align="center">Steppy</h1>
 
-<h4 align="center">A simple Stepper component for Vue 3</h4>
+<h4 align="center">A customizable Stepper component for Vue 3</h4>
 
 <p align="center">
   <a href="https://badge.fury.io/js/vue3-steppy"><img src="https://badge.fury.io/js/vue3-steppy.svg" alt="npm version" height="18"></a>
@@ -145,7 +145,7 @@ primaryColor1: {
 ,
 primaryColor2: {
   type: String,
-  default: '#C5C5C5'
+  default: '#fff'
 }
 ```
 

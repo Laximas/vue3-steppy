@@ -121,7 +121,7 @@ const props = defineProps({
   },
   primaryColor2: {
     type: String,
-    default: "#C5C5C5",
+    default: "#fff",
   },
 });
 
@@ -153,8 +153,6 @@ $primary-2: var(--primaryColor2);
 $transition: all 500ms ease;
 
 body {
-  background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
-  color: #ffffff;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -169,10 +167,7 @@ body {
 }
 
 .wrapper-steppy {
-  background-color: #fff;
   padding: 60px;
-  border-radius: 32px;
-  box-shadow: rgba($color: #000000, $alpha: 0.09);
 }
 
 .steppy {
@@ -186,7 +181,7 @@ body {
 
   &-progress {
     position: absolute;
-    background-color: $primary-2;
+    background-color: #c5c5c5;
     height: 2px;
     z-index: -1;
     left: 0;
@@ -208,7 +203,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: $primary-2;
+  color: #c5c5c5;
   transition: $transition;
 
   &-counter {
@@ -216,9 +211,9 @@ body {
     width: 68px;
     display: grid;
     place-items: center;
-    background-color: #fff;
+    background-color: $primary-2;
     border-radius: 100%;
-    border: 2px solid $primary-2;
+    border: 2px solid #c5c5c5;
     position: relative;
 
     .icon-success {
@@ -246,8 +241,6 @@ body {
 .steppy-item.success {
   .steppy-item-counter {
     border-color: $primary-1;
-    background-color: #fff;
-    color: #fff;
     font-weight: 600;
 
     .icon-success {
@@ -282,6 +275,8 @@ body {
 .steppy-pane {
   color: #333;
   text-align: center;
+  background-color: #fff;
+  border-radius: 15px;
   padding: 25px 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   margin: 60px 0 20px 0;
