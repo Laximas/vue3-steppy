@@ -15,7 +15,6 @@ export default defineConfig({
   },
   build: {
     lib: {
-      // eslint-disable-next-line no-undef
       entry: resolve(__dirname, "lib/main.js"),
       name: "vue3-steppy",
       fileName: "vue3-steppy",

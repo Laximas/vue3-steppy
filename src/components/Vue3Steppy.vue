@@ -58,9 +58,10 @@
         class="btn btn--default-2"
         @click="finalize"
         v-else
-        :disabled="!props.tabs[props.step - 1].isValid"
+        :disabled="!props.tabs[props.step - 1].isValid || loading"
       >
-        {{ props.doneText }}
+        <span v-if="loading" class="loader"></span>
+        <span v-else>{{ props.doneText }}</span>
       </button>
     </div>
   </div>
@@ -114,6 +115,10 @@ const props = defineProps({
   doneText: {
     type: String,
     default: "Done",
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
   primaryColor1: {
     type: String,
@@ -313,6 +318,26 @@ body {
     border-color: $primary-1;
     color: #fff;
     margin-left: auto;
+  }
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

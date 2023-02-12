@@ -1,5 +1,5 @@
 <template>
-  <Steppy v-model:step="step">
+  <Steppy v-model:step="step" :loading="loading" :finalize="finalize">
     <template #1
       >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
       tincidunt hendrerit risus nec vehicula. Etiam in aliquet velit. Nunc in
@@ -7,12 +7,7 @@
       dapibus lacus interdum vitae. Donec eu leo at elit efficitur vehicula in
       at velit. Fusce nec ante nec erat pellentesque fringilla. Sed mollis, ante
       at faucibus aliquam, turpis ante molestie lectus, sit amet mollis nisi
-      velit sit amet ligula. Curabitur id turpis mollis, mollis risus id,
-      finibus risus. Morbi placerat eu nibh id aliquam. Nullam rutrum risus non
-      erat rutrum pharetra. Proin finibus felis sit amet arcu gravida, non
-      posuere quam mattis. Pellentesque habitant morbi tristique senectus et
-      netus et malesuada fames ac turpis egestas. Vestibulum vel suscipit
-      velit.</template
+      velit sit amet ligula.</template
     >
     <template #2
       >Vivamus porttitor sodales ipsum in interdum. Proin suscipit ac nunc a
@@ -40,6 +35,11 @@ import Steppy from "@/components/Vue3Steppy.vue";
 import { ref } from "vue";
 
 const step = ref(1);
+const loading = ref(false);
+
+const finalize = function () {
+  loading.value = true;
+};
 </script>
 
 <style></style>

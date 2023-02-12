@@ -23,6 +23,7 @@ You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
 * Keep track of current step
 * Change step content
 * Configure finalization
+* Show loading spinner
 * Customizable
   - Colors
   - Titles
@@ -92,11 +93,11 @@ tabs: {
 
 /**
  * Function that will run after all steps are completed (done button is clicked).
- * @type {Object}
+ * @type {Function}
  */
 finalize: {
   type: Function,
-default: function () {
+  default: function () {
     return {}
   }
 },
@@ -107,7 +108,7 @@ default: function () {
  */
 backText: {
   type: String,
-default: 'Back'
+  default: 'Back'
 },
 
 /**
@@ -116,7 +117,7 @@ default: 'Back'
  */
 nextText: {
   type: String,
-default: 'Next'
+  default: 'Next'
 },
 
 /**
@@ -125,7 +126,16 @@ default: 'Next'
  */
 doneText: {
   type: String,
-default: 'Done'
+  default: 'Done'
+},
+
+/**
+ * Show loading spinner on done button
+ * @type {Boolean}
+ */
+loading: {
+  type: Boolean,
+  default: false
 },
 
 /**
@@ -157,6 +167,7 @@ This software uses the following open source packages:
 
 #### Dev Dependencies
 - [Vite](https://vitejs.dev)
+- [sass](https://www.npmjs.com/package/sass)
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
 - [gh-pages](https://www.npmjs.com/package/gh-pages)

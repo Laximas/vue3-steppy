@@ -11,4 +11,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
+  globals: {
+    __dirname: "readonly",
+  },
 };
