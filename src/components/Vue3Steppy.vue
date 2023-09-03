@@ -17,7 +17,7 @@
         v-for="(item, index) in props.tabs"
         :key="index"
       >
-        <div class="steppy-item-counter">
+        <div class="steppy-item-counter" :style="circleStyles">
           <img
             v-if="item.iconSuccess"
             class="icon-success"
@@ -135,12 +135,17 @@ const props = defineProps({
     type: String,
     default: "#fff",
   },
+  circleSize: {
+    type: Number,
+    default: 68,
+  },
 });
 
 const cssVars = computed(() => {
   return {
     "--primaryColor1": props.primaryColor1,
     "--primaryColor2": props.primaryColor2,
+    "--circleSize": `${props.circleSize}px`,
   };
 });
 
@@ -156,6 +161,13 @@ const decrementStep = () => {
 
 const steppyProgress = computed(() => {
   return (100 / (props.tabs.length - 1)) * (props.step - 1) + "%";
+});
+
+const circleStyles = computed(() => {
+  return {
+    height: `${props.circleSize}px`,
+    width: `${props.circleSize}px`,
+  };
 });
 </script>
 
@@ -254,15 +266,19 @@ body {
   .steppy-item-counter {
     border-color: $primary-1;
     font-weight: 600;
+    height: var(--circleSize);
+    width: var(--circleSize);
 
     .icon-success {
       opacity: 1;
       transform: scale(1);
+      width: calc(var(--circleSize) * 0.35);
     }
 
     .number {
       opacity: 0;
       transform: scale(0);
+      font-size: calc(var(--circleSize) * 0.32);
     }
   }
 

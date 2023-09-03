@@ -29,6 +29,7 @@ You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
   - Titles
   - Icons
   - Button text
+  - Circle size
 
 ## How To Use
 Install
@@ -58,7 +59,7 @@ API Props
 step: {
   type: Number,
   default: 1
-},
+}
 
 /**
  * Contains the steps with custom titles and icons.
@@ -89,7 +90,7 @@ tabs: {
       isValid: true
     }
   ])
-},
+}
 
 /**
  * Function that will run after all steps are completed (done button is clicked).
@@ -100,7 +101,7 @@ finalize: {
   default: function () {
     return {}
   }
-},
+}
 
 /**
  * Text for back button.
@@ -109,7 +110,7 @@ finalize: {
 backText: {
   type: String,
   default: 'Back'
-},
+}
 
 /**
  * Text for next button.
@@ -118,7 +119,7 @@ backText: {
 nextText: {
   type: String,
   default: 'Next'
-},
+}
 
 /**
  * Text for done button.
@@ -127,7 +128,7 @@ nextText: {
 doneText: {
   type: String,
   default: 'Done'
-},
+}
 
 /**
  * Show loading spinner on done button
@@ -136,26 +137,33 @@ doneText: {
 loading: {
   type: Boolean,
   default: false
-},
+}
 
 /**
  * Primary Color 1
  * @type {String}
  */
-,
 primaryColor1: {
   type: String,
   default: 'orange'
-},
+}
 
 /**
  * Primary Color 2
  * @type {String}
  */
-,
 primaryColor2: {
   type: String,
   default: '#fff'
+}
+
+/**
+ * Adjust the size of the circles
+ * @type {Number}
+ */
+circleSize: {
+  type: Number,
+  default: 68,
 }
 ```
 
