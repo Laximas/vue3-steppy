@@ -43,11 +43,17 @@
     </div>
 
     <div class="controls">
-      <button class="btn" @click="decrementStep" v-if="props.step !== 1">
+      <button
+        class="btn"
+        type="button"
+        @click="decrementStep"
+        v-if="props.step !== 1"
+      >
         {{ props.backText }}
       </button>
       <button
         class="btn btn--default-2"
+        type="button"
         @click="incrementStep"
         v-if="props.step !== props.tabs.length"
         :disabled="!props.tabs[props.step - 1].isValid"
@@ -56,6 +62,7 @@
       </button>
       <button
         class="btn btn--default-2"
+        type="button"
         @click="finalize"
         v-else
         :disabled="!props.tabs[props.step - 1].isValid || loading"
