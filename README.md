@@ -149,6 +149,15 @@ primaryColor1: {
 }
 
 /**
+ * Background Color of the content box
+ * @type {String}
+ */
+backgroundColor: {
+  type: String,
+default: "#fff",
+},
+
+/**
  * Primary Color 2
  * @type {String}
  */
