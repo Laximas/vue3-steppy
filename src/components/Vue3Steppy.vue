@@ -135,6 +135,10 @@ const props = defineProps({
     type: String,
     default: "#fff",
   },
+  backgroundColor: {
+    type: String,
+    default: "#fff",
+  },
   circleSize: {
     type: Number,
     default: 68,
@@ -145,6 +149,7 @@ const cssVars = computed(() => {
   return {
     "--primaryColor1": props.primaryColor1,
     "--primaryColor2": props.primaryColor2,
+    "--backgroundColor": props.backgroundColor,
     "--circleSize": `${props.circleSize}px`,
   };
 });
@@ -174,6 +179,8 @@ const circleStyles = computed(() => {
 <style scoped lang="scss">
 $primary-1: var(--primaryColor1);
 $primary-2: var(--primaryColor2);
+$backgroundColor: var(--backgroundColor);
+
 $transition: all 500ms ease;
 
 body {
@@ -303,7 +310,7 @@ body {
 .steppy-pane {
   color: #333;
   text-align: center;
-  background-color: #fff;
+  background-color: $backgroundColor;
   border-radius: 15px;
   padding: 25px 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
