@@ -190,10 +190,6 @@ This software uses the following open source packages:
 - [gh-pages](https://www.npmjs.com/package/gh-pages)
 - [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
 
-## Support
-
-<a href="https://www.buymeacoffee.com/laximas" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
 ## License
 
 [MIT](https://github.com/Laximas/vue3-steppy/blob/main/LICENSE.md)
@@ -201,4 +197,3 @@ This software uses the following open source packages:
 ---
 
 > GitHub [Laximas](https://github.com/Laximas) &nbsp;&middot;&nbsp;
-> LinkedIn [Mike Konstantakos](https://www.linkedin.com/in/mike-konstantakos/)
