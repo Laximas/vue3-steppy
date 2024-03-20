@@ -24,6 +24,7 @@ You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
 * Change step content
 * Configure finalization
 * Show loading spinner
+* Typescript support
 * Customizable
   - Colors
   - Titles
@@ -40,141 +41,25 @@ Import
 ```js
 import {Steppy} from 'vue3-steppy'
 ```
-Template
-```html
-<Steppy v-model:step="step">
-  <template #1><!-- Step 1 Content --></template>
-  <template #2><!-- Step 2 Content --></template>
-  <template #3><!-- Step 3 Content --></template>
-</Steppy>
-```
-API Props
-```js
-/**
- * Contains the current step. Very similar to a
- * `value` attribute on an input. In most cases, you'll want
- * to set this as a two-way binding, using the `v-model` directive.
- * @type {Number}
- */
-step: {
-  type: Number,
-  default: 1
-}
 
-/**
- * Contains the steps with custom titles and icons.
- * @type {Array}
- * 
- * @param {Image} iconSuccess - You can point to an imported icon from you assets like:
- * import CheckMark from '../assets/check-mark.png'
- * If you set it to null, a default SVG will be used with primary color 1.
- * 
- * @param {boolean} isValid - Used to determine if the user can move to the next step.
- */
-tabs: {
-  type: Array,
-  default: reactive([
-    {
-      title: 'Step 1',
-      iconSuccess: null,
-      isValid: true
-    },
-    {
-      title: 'Step 2',
-      iconSuccess: null,
-      isValid: true
-    },
-    {
-      title: 'Step 3',
-      iconSuccess: null,
-      isValid: true
-    }
-  ])
-}
+For an implementation example, see the [App.vue](./src/App.vue) file in the repository.
 
-/**
- * Function that will run after all steps are completed (done button is clicked).
- * @type {Function}
- */
-finalize: {
-  type: Function,
-  default: function () {
-    return {}
-  }
-}
+## Props
 
-/**
- * Text for back button.
- * @type {String}
- */
-backText: {
-  type: String,
-  default: 'Back'
-}
+| Prop              | Type     | Default    | Description                                                                 |
+|-------------------|----------|------------|-----------------------------------------------------------------------------|
+| `step`            | Number   | `1`        | The current step number.                                                    |
+| `tabs`            | Array    | `[]`       | Array of step objects with titles and flags for validity and success icons. |
+| `finalize`        | Function | `() => {}` | Function to call when the final step is completed.                          |
+| `backText`        | String   | `"Back"`   | Text displayed on the back button.                                          |
+| `nextText`        | String   | `"Next"`   | Text displayed on the next button.                                          |
+| `doneText`        | String   | `"Done"`   | Text displayed on the done button.                                          |
+| `loading`         | Boolean  | `false`    | Indicates whether the final step is in a loading state.                     |
+| `primaryColor1`   | String   | `"orange"` | Primary color for the stepper's theme.                                      |
+| `primaryColor2`   | String   | `"#fff"`   | Secondary color for the stepper's theme.                                    |
+| `backgroundColor` | String   | `"#fff"`   | Background color for the stepper.                                           |
+| `circleSize`      | Number   | `68`       | Size of the circles in the step indicators.                                 |
 
-/**
- * Text for next button.
- * @type {String}
- */
-nextText: {
-  type: String,
-  default: 'Next'
-}
-
-/**
- * Text for done button.
- * @type {String}
- */
-doneText: {
-  type: String,
-  default: 'Done'
-}
-
-/**
- * Show loading spinner on done button
- * @type {Boolean}
- */
-loading: {
-  type: Boolean,
-  default: false
-}
-
-/**
- * Primary Color 1
- * @type {String}
- */
-primaryColor1: {
-  type: String,
-  default: 'orange'
-}
-
-/**
- * Background Color of the content box
- * @type {String}
- */
-backgroundColor: {
-  type: String,
-default: "#fff",
-},
-
-/**
- * Primary Color 2
- * @type {String}
- */
-primaryColor2: {
-  type: String,
-  default: '#fff'
-}
-
-/**
- * Adjust the size of the circles
- * @type {Number}
- */
-circleSize: {
-  type: Number,
-  default: 68,
-}
-```
 
 ## Dependencies
 
@@ -184,6 +69,7 @@ This software uses the following open source packages:
 
 #### Dev Dependencies
 - [Vite](https://vitejs.dev)
+- [Typescript](https://www.typescriptlang.org/)
 - [sass](https://www.npmjs.com/package/sass)
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
