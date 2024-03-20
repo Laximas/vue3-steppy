@@ -1,4 +1,4 @@
-declare module 'vue3-steppy' {
+declare module '@/components/Vue3Steppy.vue' {
   import { DefineComponent } from 'vue';
 
   export interface SteppyProps {

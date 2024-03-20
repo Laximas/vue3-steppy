@@ -50,6 +50,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
     "@vitejs/plugin-vue": "^4.6.2",
+    "@vue/cli-plugin-typescript": "^5.0.8",
     "@vue/cli-service": "~5.0.8",
     "@vue/eslint-config-prettier": "^7.1.0",
     "eslint": "^8.57.0",
@@ -57,6 +58,7 @@
     "gh-pages": "^5.0.0",
     "prettier": "^2.8.8",
     "sass": "^1.72.0",
+    "typescript": "^5.4.3",
     "vite": "^4.5.2",
     "vite-plugin-css-injected-by-js": "^2.4.0"
   },

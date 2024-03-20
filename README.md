@@ -69,6 +69,7 @@ This software uses the following open source packages:
 
 #### Dev Dependencies
 - [Vite](https://vitejs.dev)
+- [Typescript](https://www.typescriptlang.org/)
 - [sass](https://www.npmjs.com/package/sass)
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
