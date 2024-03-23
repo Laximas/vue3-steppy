@@ -1,7 +1,7 @@
 {
   "name": "vue3-steppy",
   "description": "A customizable Vue 3 Stepper plugin",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "types": "index.d.ts",
   "type": "module",
   "private": false,
