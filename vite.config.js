@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -17,15 +16,26 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "lib/main.js"),
       name: "vue3-steppy",
-      fileName: "vue3-steppy",
+      fileName: (format) => `vue3-steppy.${format}.js`
     },
     rollupOptions: {
       external: ["vue"],
-      output: {
-        globals: {
-          vue: "Vue",
+      output: [
+        {
+          format: "umd",
+          name: "Vue3Steppy",
+          globals: {
+            vue: "Vue"
+          },
         },
-      },
-    },
+        {
+          format: "es",
+        },
+        {
+          format: "cjs",
+          exports: "auto"
+        }
+      ]
+    }
   },
 });
