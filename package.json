@@ -2,7 +2,6 @@
   "name": "vue3-steppy",
   "description": "A customizable Vue 3 Stepper plugin",
   "version": "1.4.1",
-  "types": "./dist/index.d.ts",
   "type": "module",
   "private": false,
   "author": "Mike Konstantakos",
@@ -29,16 +28,17 @@
     "dist"
   ],
   "main": "./dist/vue3-steppy.umd.cjs",
-  "module": "./dist/vue3-steppy.js",
+  "module": "./dist/vue3-steppy.es.js",
+  "types": "./dist/vue3-steppy.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue3-steppy.js",
+      "import": "./dist/vue3-steppy.es.js",
       "require": "./dist/vue3-steppy.umd.cjs"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && shx cp ./src/index.d.ts dist",
+    "build": "vite build && shx cp ./src/vue3-steppy.d.ts dist",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "preview": "vite preview",
