@@ -27,13 +27,14 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-steppy.umd.cjs",
+  "main": "./dist/vue3-steppy.cjs.cjs",
   "module": "./dist/vue3-steppy.es.js",
   "types": "./dist/vue3-steppy.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue3-steppy.es.js",
-      "require": "./dist/vue3-steppy.umd.cjs"
+      "require": "./dist/vue3-steppy.cjs.js",
+      "default": "./dist/vue3-steppy.umd.js"
     }
   },
   "scripts": {
