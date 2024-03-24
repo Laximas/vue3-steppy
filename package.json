@@ -1,7 +1,7 @@
 {
   "name": "vue3-steppy",
   "description": "A customizable Vue 3 Stepper plugin",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "type": "module",
   "private": false,
   "author": "Mike Konstantakos",
@@ -27,9 +27,10 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-steppy.cjs.cjs",
+  "main": "./dist/vue3-steppy.cjs.js",
   "module": "./dist/vue3-steppy.es.js",
   "types": "./dist/vue3-steppy.d.ts",
+  "typings": "./dist/vue3-steppy.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue3-steppy.es.js",
