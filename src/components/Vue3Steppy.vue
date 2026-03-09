@@ -34,7 +34,9 @@
         </div>
         <div class="steppy-item-text">
           <span class="steppy-item-title">{{ item.title }}</span>
-          <span v-if="item.description" class="steppy-item-description">{{ item.description }}</span>
+          <span v-if="item.description" class="steppy-item-description">{{
+            item.description
+          }}</span>
         </div>
       </div>
     </div>
@@ -269,7 +271,7 @@ body {
     }
   }
 
-.steppy-item-text {
+  .steppy-item-text {
     position: absolute;
     text-align: center;
     bottom: -58px;

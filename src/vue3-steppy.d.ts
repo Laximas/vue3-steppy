@@ -1,9 +1,14 @@
-declare module '@/components/Vue3Steppy.vue' {
-  import { DefineComponent } from 'vue';
+declare module "@/components/Vue3Steppy.vue" {
+  import { DefineComponent } from "vue";
 
   export interface SteppyProps {
     step: number;
-    tabs: Array<{ title: string; description?: string; iconSuccess?: string; isValid: boolean; }>;
+    tabs: Array<{
+      title: string;
+      description?: string;
+      iconSuccess?: string;
+      isValid: boolean;
+    }>;
     finalize: () => void;
     backText: string;
     nextText: string;

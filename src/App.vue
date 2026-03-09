@@ -37,16 +37,31 @@
 </template>
 
 <script setup lang="ts">
-import Steppy from '@/components/Vue3Steppy.vue';
-import { ref } from 'vue';
+import Steppy from "@/components/Vue3Steppy.vue";
+import { ref } from "vue";
 
 const step = ref<number>(1);
 const loading = ref<boolean>(false);
 
 const tabs = ref([
-  { title: 'Personal Info', description: 'Enter your details', isValid: true, iconSuccess: null },
-  { title: 'Account Setup', description: 'Configure your account', isValid: true, iconSuccess: null },
-  { title: 'Verification', description: 'Verify your email', isValid: true, iconSuccess: null },
+  {
+    title: "Personal Info",
+    description: "Enter your details",
+    isValid: true,
+    iconSuccess: null,
+  },
+  {
+    title: "Account Setup",
+    description: "Configure your account",
+    isValid: true,
+    iconSuccess: null,
+  },
+  {
+    title: "Verification",
+    description: "Verify your email",
+    isValid: true,
+    iconSuccess: null,
+  },
 ]);
 
 const finalize = (): void => {

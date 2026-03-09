@@ -16,7 +16,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "lib/main.js"),
       name: "vue3-steppy",
-      fileName: (format) => `vue3-steppy.${format}.js`
+      fileName: (format) => `vue3-steppy.${format}.js`,
     },
     rollupOptions: {
       external: ["vue"],
@@ -25,7 +25,7 @@ export default defineConfig({
           format: "umd",
           name: "Vue3Steppy",
           globals: {
-            vue: "Vue"
+            vue: "Vue",
           },
         },
         {
@@ -33,9 +33,9 @@ export default defineConfig({
         },
         {
           format: "cjs",
-          exports: "auto"
-        }
-      ]
-    }
+          exports: "auto",
+        },
+      ],
+    },
   },
 });
