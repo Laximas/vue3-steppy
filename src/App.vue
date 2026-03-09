@@ -1,5 +1,11 @@
 <template>
-  <Steppy v-model:step="step" :loading="loading" :finalize="finalize">
+  <Steppy
+    v-model:step="step"
+    :tabs="tabs"
+    :loading="loading"
+    :finalize="finalize"
+    :contentMarginTop="100"
+  >
     <template #1
       >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
       tincidunt hendrerit risus nec vehicula. Etiam in aliquet velit. Nunc in
@@ -36,6 +42,12 @@ import { ref } from 'vue';
 
 const step = ref<number>(1);
 const loading = ref<boolean>(false);
+
+const tabs = ref([
+  { title: 'Personal Info', description: 'Enter your details', isValid: true, iconSuccess: null },
+  { title: 'Account Setup', description: 'Configure your account', isValid: true, iconSuccess: null },
+  { title: 'Verification', description: 'Verify your email', isValid: true, iconSuccess: null },
+]);
 
 const finalize = (): void => {
   loading.value = true;

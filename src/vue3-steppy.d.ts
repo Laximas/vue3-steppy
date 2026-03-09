@@ -3,7 +3,7 @@ declare module '@/components/Vue3Steppy.vue' {
 
   export interface SteppyProps {
     step: number;
-    tabs: Array<{ title: string; iconSuccess?: string; isValid: boolean; }>;
+    tabs: Array<{ title: string; description?: string; iconSuccess?: string; isValid: boolean; }>;
     finalize: () => void;
     backText: string;
     nextText: string;
@@ -13,6 +13,7 @@ declare module '@/components/Vue3Steppy.vue' {
     primaryColor2: string;
     backgroundColor: string;
     circleSize: number;
+    contentMarginTop: number;
   }
 
   const Steppy: DefineComponent<SteppyProps>;

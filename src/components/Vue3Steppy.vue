@@ -32,7 +32,10 @@
           />
           <span class="number">{{ index + 1 }}</span>
         </div>
-        <span class="steppy-item-title">{{ item.title }}</span>
+        <div class="steppy-item-text">
+          <span class="steppy-item-title">{{ item.title }}</span>
+          <span v-if="item.description" class="steppy-item-description">{{ item.description }}</span>
+        </div>
       </div>
     </div>
 
@@ -143,6 +146,10 @@ const props = defineProps({
     type: Number,
     default: 68,
   },
+  contentMarginTop: {
+    type: Number,
+    default: 60,
+  },
 });
 
 const cssVars = computed(() => {
@@ -151,6 +158,7 @@ const cssVars = computed(() => {
     "--primaryColor2": props.primaryColor2,
     "--backgroundColor": props.backgroundColor,
     "--circleSize": `${props.circleSize}px`,
+    "--contentMarginTop": `${props.contentMarginTop}px`,
   };
 });
 
@@ -261,11 +269,26 @@ body {
     }
   }
 
-  &-title {
+.steppy-item-text {
     position: absolute;
     text-align: center;
+    bottom: -58px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .steppy-item-title {
     font-size: 14px;
-    bottom: -43px;
+    font-weight: 500;
+  }
+
+  .steppy-item-description {
+    font-size: 12px;
+    color: #999;
+    transition: $transition;
   }
 }
 
@@ -292,6 +315,11 @@ body {
   .steppy-item-title {
     color: $primary-1;
   }
+
+  .steppy-item-description {
+    color: $primary-1;
+    opacity: 0.7;
+  }
 }
 
 .steppy-item.current {
@@ -305,6 +333,10 @@ body {
   .steppy-item-title {
     color: #818181;
   }
+
+  .steppy-item-description {
+    color: #999;
+  }
 }
 
 .steppy-pane {
@@ -314,7 +346,7 @@ body {
   border-radius: 15px;
   padding: 25px 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  margin: 60px 0 20px 0;
+  margin: var(--contentMarginTop) 0 20px 0;
 }
 
 .controls {

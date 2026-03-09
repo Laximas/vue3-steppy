@@ -24,13 +24,16 @@ You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
 * Change step content
 * Configure finalization
 * Show loading spinner
+* Step descriptions/subtitles
 * Typescript support
 * Customizable
   - Colors
   - Titles
+  - Descriptions
   - Icons
   - Button text
   - Circle size
+  - Content spacing
 
 ## How To Use
 Install
@@ -46,22 +49,43 @@ For an implementation example, see the [App.vue](./src/App.vue) file in the repo
 
 ## Props
 
-| Prop              | Type     | Default    | Description                                                                 |
-|-------------------|----------|------------|-----------------------------------------------------------------------------|
-| `step`            | Number   | `1`        | The current step number.                                                    |
-| `tabs`            | Array    | `[]`       | Array of step objects with titles and flags for validity and success icons. |
-| `finalize`        | Function | `() => {}` | Function to call when the final step is completed.                          |
-| `backText`        | String   | `"Back"`   | Text displayed on the back button.                                          |
-| `nextText`        | String   | `"Next"`   | Text displayed on the next button.                                          |
-| `doneText`        | String   | `"Done"`   | Text displayed on the done button.                                          |
-| `loading`         | Boolean  | `false`    | Indicates whether the final step is in a loading state.                     |
-| `primaryColor1`   | String   | `"orange"` | Primary color for the stepper's theme.                                      |
-| `primaryColor2`   | String   | `"#fff"`   | Secondary color for the stepper's theme.                                    |
-| `backgroundColor` | String   | `"#fff"`   | Background color for the stepper.                                           |
-| `circleSize`      | Number   | `68`       | Size of the circles in the step indicators.                                 |
+| Prop               | Type     | Default    | Description                                                                                  |
+|--------------------|----------|------------|----------------------------------------------------------------------------------------------|
+| `step`             | Number   | `1`        | The current step number.                                                                     |
+| `tabs`             | Array    | `[]`       | Array of step objects with titles, descriptions, and flags for validity and success icons.   |
+| `finalize`         | Function | `() => {}` | Function to call when the final step is completed.                                           |
+| `backText`         | String   | `"Back"`   | Text displayed on the back button.                                                           |
+| `nextText`         | String   | `"Next"`   | Text displayed on the next button.                                                           |
+| `doneText`         | String   | `"Done"`   | Text displayed on the done button.                                                           |
+| `loading`          | Boolean  | `false`    | Indicates whether the final step is in a loading state.                                      |
+| `primaryColor1`    | String   | `"orange"` | Primary color for the stepper's theme.                                                       |
+| `primaryColor2`    | String   | `"#fff"`   | Secondary color for the stepper's theme.                                                     |
+| `backgroundColor`  | String   | `"#fff"`   | Background color for the stepper.                                                            |
+| `circleSize`       | Number   | `68`       | Size of the circles in the step indicators.                                                  |
+| `contentMarginTop` | Number   | `60`       | Top margin of the content area in pixels. Controls spacing between descriptions and content. |
 
 
-## Dependencies
+## Tab Object Structure
+
+Each tab object in the `tabs` array should have the following properties:
+
+| Property      | Type     | Required | Description                                      |
+|---------------|----------|----------|--------------------------------------------------|
+| `title`       | String   | Yes      | The title of the step.                           |
+| `description` | String   | No       | Optional subtitle/description text below title.  |
+| `isValid`     | Boolean  | Yes      | Whether the step is valid and can proceed.       |
+| `iconSuccess` | String   | No       | Optional custom icon URL for completed steps.    |
+
+### Example Tab Object
+
+```javascript
+{
+  title: 'Personal Information',
+  description: 'Enter your details',
+  isValid: true,
+  iconSuccess: null
+}
+```
 
 This software uses the following open source packages:
 
