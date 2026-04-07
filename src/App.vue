@@ -69,4 +69,16 @@ const finalize = (): void => {
 };
 </script>
 
-<style></style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+</style>
