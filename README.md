@@ -25,6 +25,7 @@ You can try a live demo [here](https://laximas.github.io/vue3-steppy/)
 * Configure finalization
 * Show loading spinner
 * Step descriptions/subtitles
+* Clickable step navigation (linear / non-linear)
 * Typescript support
 * Customizable
   - Colors
@@ -49,20 +50,21 @@ For an implementation example, see the [App.vue](./src/App.vue) file in the repo
 
 ## Props
 
-| Prop               | Type     | Default    | Description                                                                                  |
-|--------------------|----------|------------|----------------------------------------------------------------------------------------------|
-| `step`             | Number   | `1`        | The current step number.                                                                     |
-| `tabs`             | Array    | `[]`       | Array of step objects with titles, descriptions, and flags for validity and success icons.   |
-| `finalize`         | Function | `() => {}` | Function to call when the final step is completed.                                           |
-| `backText`         | String   | `"Back"`   | Text displayed on the back button.                                                           |
-| `nextText`         | String   | `"Next"`   | Text displayed on the next button.                                                           |
-| `doneText`         | String   | `"Done"`   | Text displayed on the done button.                                                           |
-| `loading`          | Boolean  | `false`    | Indicates whether the final step is in a loading state.                                      |
-| `primaryColor1`    | String   | `"orange"` | Primary color for the stepper's theme.                                                       |
-| `primaryColor2`    | String   | `"#fff"`   | Secondary color for the stepper's theme.                                                     |
-| `backgroundColor`  | String   | `"#fff"`   | Background color for the stepper.                                                            |
-| `circleSize`       | Number   | `68`       | Size of the circles in the step indicators.                                                  |
-| `contentMarginTop` | Number   | `60`       | Top margin of the content area in pixels. Controls spacing between descriptions and content. |
+| Prop               | Type     | Default                 | Description                                                                                       |
+|--------------------|----------|-------------------------|---------------------------------------------------------------------------------------------------|
+| `step`             | Number   | `1`                     | The current step number.                                                                          |
+| `tabs`             | Array    | Three placeholder steps | Array of step objects with titles, descriptions, and flags for validity and success icons.        |
+| `finalize`         | Function | `() => {}`              | Function to call when the final step is completed.                                                |
+| `backText`         | String   | `"Back"`                | Text displayed on the back button.                                                                |
+| `nextText`         | String   | `"Next"`                | Text displayed on the next button.                                                                |
+| `doneText`         | String   | `"Done"`                | Text displayed on the done button.                                                                |
+| `loading`          | Boolean  | `false`                 | Indicates whether the final step is in a loading state.                                           |
+| `linear`           | Boolean  | `true`                  | When true, only completed steps can be clicked to jump back. When false, any step can be clicked. |
+| `primaryColor1`    | String   | `"orange"`              | Primary color for the stepper's theme.                                                            |
+| `primaryColor2`    | String   | `"#fff"`                | Secondary color for the stepper's theme.                                                          |
+| `backgroundColor`  | String   | `"#fff"`                | Background color for the stepper.                                                                 |
+| `circleSize`       | Number   | `68`                    | Size of the circles in the step indicators.                                                       |
+| `contentMarginTop` | Number   | `60`                    | Top margin of the content area in pixels. Controls spacing between descriptions and content.      |
 
 
 ## Tab Object Structure

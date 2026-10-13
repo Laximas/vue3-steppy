@@ -14,10 +14,25 @@
           current: props.step === index + 1,
           success: props.step > index + 1,
         }"
+        :aria-current="props.step === index + 1 ? 'step' : undefined"
         v-for="(item, index) in props.tabs"
         :key="index"
       >
-        <div class="steppy-item-counter" :style="circleStyles">
+        <div
+          class="steppy-item-counter"
+          :class="{ clickable: canNavigateTo(index + 1) }"
+          :style="circleStyles"
+          :role="canNavigateTo(index + 1) ? 'button' : undefined"
+          :tabindex="canNavigateTo(index + 1) ? 0 : undefined"
+          :aria-label="
+            canNavigateTo(index + 1)
+              ? `Go to step ${index + 1}: ${item.title}`
+              : undefined
+          "
+          @click="goToStep(index + 1)"
+          @keydown.enter.prevent="goToStep(index + 1)"
+          @keydown.space.prevent="goToStep(index + 1)"
+        >
           <img
             v-if="item.iconSuccess"
             class="icon-success"
@@ -132,6 +147,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  linear: {
+    type: Boolean,
+    default: true,
+  },
   primaryColor1: {
     type: String,
     default: "orange",
@@ -174,7 +193,17 @@ const decrementStep = () => {
   emit("update:step", step);
 };
 
+const canNavigateTo = (target) => {
+  if (props.loading || target === props.step) return false;
+  return props.linear ? target < props.step : true;
+};
+
+const goToStep = (target) => {
+  if (canNavigateTo(target)) emit("update:step", target);
+};
+
 const steppyProgress = computed(() => {
+  if (props.tabs.length <= 1) return "0%";
   return (100 / (props.tabs.length - 1)) * (props.step - 1) + "%";
 });
 
@@ -192,20 +221,6 @@ $primary-2: var(--primaryColor2);
 $backgroundColor: var(--backgroundColor);
 
 $transition: all 500ms ease;
-
-body {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: sans-serif;
-}
-
-.tx-default-2 {
-  color: $primary-1;
-  font-weight: 600;
-}
 
 .wrapper-steppy {
   padding: 60px;
@@ -241,6 +256,7 @@ body {
 }
 
 .steppy-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -256,6 +272,16 @@ body {
     border-radius: 100%;
     border: 2px solid #c5c5c5;
     position: relative;
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
+        outline: none;
+      }
+    }
 
     .icon-success {
       position: absolute;
@@ -274,8 +300,12 @@ body {
   .steppy-item-text {
     position: absolute;
     text-align: center;
-    bottom: -58px;
-    width: 100%;
+    top: calc(100% + 26px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    // stays inside .wrapper-steppy's 60px padding for circles >= 40px
+    max-width: 160px;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -3,6 +3,7 @@
     v-model:step="step"
     :tabs="tabs"
     :loading="loading"
+    :linear="false"
     :finalize="finalize"
     :contentMarginTop="100"
   >
