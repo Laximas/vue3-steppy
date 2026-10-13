@@ -89,6 +89,19 @@ Each tab object in the `tabs` array should have the following properties:
 }
 ```
 
+## Development
+
+```bash
+pnpm install
+pnpm dev          # run the demo locally
+pnpm test         # component tests in a real browser (Vitest browser mode + Playwright)
+pnpm test:types   # type-check the public typings
+```
+
+The tests run in headless Chromium. Install it once with `pnpm exec playwright install chromium`. Use `pnpm test:watch` while working on the tests.
+
+## Dependencies
+
 This software uses the following open source packages:
 
 - [Vue 3](https://vuejs.org)
@@ -100,6 +113,7 @@ This software uses the following open source packages:
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
 - [gh-pages](https://www.npmjs.com/package/gh-pages)
+- [Vitest](https://vitest.dev) and [Playwright](https://playwright.dev)
 - [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
 
 ## License

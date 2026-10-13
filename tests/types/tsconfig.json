@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "types": [],
+    "skipLibCheck": false,
+    "paths": {
+      "vue3-steppy": ["../../src/vue3-steppy.d.ts"]
+    }
+  },
+  "files": ["consumer.ts"]
+}

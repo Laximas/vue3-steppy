@@ -26,3 +26,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Vitest browser mode: failure screenshots/attachments (Vitest 5) and screenshot baselines
+.vitest/
+__screenshots__/
