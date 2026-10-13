@@ -48,23 +48,23 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix"
   },
   "dependencies": {
-    "vue": "^3.5.39"
+    "vue": "^3.5.44"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@rushstack/eslint-patch": "^1.16.1",
-    "@typescript-eslint/parser": "^8.64.0",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@typescript-eslint/parser": "^8.71.2",
+    "@vitejs/plugin-vue": "^6.0.10",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "eslint": "10.7.0",
-    "eslint-plugin-vue": "^10.9.2",
+    "eslint": "10.8.0",
+    "eslint-plugin-vue": "^10.11.1",
     "gh-pages": "^6.3.0",
-    "prettier": "^3.9.5",
-    "sass": "^1.101.0",
+    "prettier": "^3.9.10",
+    "sass": "^1.105.1",
     "shx": "^0.4.0",
     "typescript": "^7.0.2",
-    "vite": "^8.1.4",
-    "vite-plugin-css-injected-by-js": "^5.0.1",
+    "vite": "^8.3.4",
+    "vite-plugin-css-injected-by-js": "^5.0.2",
     "vue-eslint-parser": "^10.4.1"
   },
   "directories": {
