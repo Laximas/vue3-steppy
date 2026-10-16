@@ -25,9 +25,7 @@
           :role="canNavigateTo(index + 1) ? 'button' : undefined"
           :tabindex="canNavigateTo(index + 1) ? 0 : undefined"
           :aria-label="
-            canNavigateTo(index + 1)
-              ? `Go to step ${index + 1}: ${item.title}`
-              : undefined
+            canNavigateTo(index + 1) ? circleLabel(item, index + 1) : undefined
           "
           @click="goToStep(index + 1)"
           @keydown.enter.prevent="goToStep(index + 1)"
@@ -37,14 +35,10 @@
             v-if="item.iconSuccess"
             class="icon-success"
             :src="item.iconSuccess"
-            alt="Check Mark"
+            alt=""
+            aria-hidden="true"
           />
-          <CheckMark
-            v-else
-            class="icon-success"
-            :color="primaryColor1"
-            alt="Check Mark"
-          />
+          <CheckMark v-else class="icon-success" :color="primaryColor1" />
           <span class="number">{{ index + 1 }}</span>
         </div>
         <div class="steppy-item-text">
@@ -198,6 +192,11 @@ const decrementStep = () => {
 const canNavigateTo = (target) => {
   if (props.loading || target === props.step) return false;
   return props.linear ? target < props.step : true;
+};
+
+const circleLabel = (item, target) => {
+  const completed = props.step > target ? " (completed)" : "";
+  return `Go to step ${target}: ${item.title}${completed}`;
 };
 
 const goToStep = (target) => {

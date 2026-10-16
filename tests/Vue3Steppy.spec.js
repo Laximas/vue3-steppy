@@ -269,7 +269,7 @@ describe("Linear navigation", () => {
       expect(circle.getAttribute("role")).toBe("button");
       expect(circle.getAttribute("tabindex")).toBe("0");
       expect(circle.getAttribute("aria-label")).toBe(
-        `Go to step ${index + 1}: ${title}`,
+        `Go to step ${index + 1}: ${title} (completed)`,
       );
     }
 
@@ -283,10 +283,10 @@ describe("Linear navigation", () => {
     await renderSteppy({ step: 3 });
 
     await expect
-      .element(button("Go to step 1: Personal Info"))
+      .element(button("Go to step 1: Personal Info (completed)"))
       .toBeInTheDocument();
     await expect
-      .element(button("Go to step 2: Account Setup"))
+      .element(button("Go to step 2: Account Setup (completed)"))
       .toBeInTheDocument();
     await expect
       .element(page.getByRole("button", { name: /Go to step 3/ }))
@@ -417,6 +417,17 @@ describe("Non-linear navigation (linear: false)", () => {
     }
   });
 
+  it("does not call a step completed unless it is before the current one", async () => {
+    await renderSteppy({ step: 2, linear: false });
+
+    expect(circles()[0].getAttribute("aria-label")).toBe(
+      "Go to step 1: Personal Info (completed)",
+    );
+    expect(circles()[2].getAttribute("aria-label")).toBe(
+      "Go to step 3: Verification",
+    );
+  });
+
   it("emits the target when a later step is clicked", async () => {
     const view = await renderSteppy({ step: 1, linear: false });
 
@@ -509,6 +520,38 @@ describe("ARIA", () => {
     await view.rerender({ step: 2 });
     expect(items()[0].hasAttribute("aria-current")).toBe(false);
     expect(items()[1].getAttribute("aria-current")).toBe("step");
+  });
+});
+
+describe("Check marks", () => {
+  it("hides the built-in check mark from assistive technology", async () => {
+    await renderSteppy({ step: 2 });
+
+    const icons = document.querySelectorAll(".icon-success");
+    expect(icons).toHaveLength(3);
+    for (const icon of icons) {
+      expect(icon.getAttribute("aria-hidden")).toBe("true");
+      expect(icon.hasAttribute("alt")).toBe(false);
+      expect(icon.getAttribute("focusable")).toBe("false");
+    }
+  });
+
+  it("makes a custom iconSuccess image decorative", async () => {
+    const tabs = demoTabs();
+    tabs[0].iconSuccess = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+    await renderSteppy({ tabs, step: 2 });
+
+    const icon = circles()[0].querySelector("img.icon-success");
+    expect(icon.getAttribute("alt")).toBe("");
+    expect(icon.getAttribute("aria-hidden")).toBe("true");
+  });
+
+  it("does not expose a Check Mark image to screen readers", async () => {
+    await renderSteppy({ step: 2 });
+
+    await expect
+      .element(page.getByRole("img", { name: "Check Mark" }))
+      .not.toBeInTheDocument();
   });
 });
 

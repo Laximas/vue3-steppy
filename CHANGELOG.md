@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A `step` beyond the last tab, or an empty `tabs` array, no longer crashes the render. The forward button is disabled instead.
 - Steppy instances without a `tabs` prop no longer share one default array.
 - The step number and check mark now scale with `circleSize` in every state, not only on completed steps.
+- The check marks are now hidden from screen readers instead of announcing "Check Mark" on every step. The label of a completed, clickable step ends with "(completed)" instead.
 
 ## [1.7.0] - 2026-10-13
 
