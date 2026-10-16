@@ -36,4 +36,30 @@ export default [
       },
     },
   },
+  {
+    files: ["tests/**/*.js"],
+    languageOptions: {
+      globals: {
+        document: "readonly",
+        window: "readonly",
+        getComputedStyle: "readonly",
+      },
+    },
+  },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        module: "writable",
+      },
+    },
+  },
+  {
+    // Type declarations: parameter names in function types are not variables.
+    files: ["**/*.d.ts"],
+    rules: {
+      "no-unused-vars": "off",
+    },
+  },
 ];
