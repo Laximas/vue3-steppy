@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Steppy instances without a `tabs` prop no longer share one default array.
 - The step number and check mark now scale with `circleSize` in every state, not only on completed steps.
 - The check marks are now hidden from screen readers instead of announcing "Check Mark" on every step. The label of a completed, clickable step ends with "(completed)" instead.
+- The Done button keeps its accessible name while `loading` (the text is visually hidden behind the spinner) and exposes `aria-busy="true"`.
 
 ## [1.7.0] - 2026-10-13
 

@@ -174,9 +174,36 @@ describe("Controls", () => {
 
     const done = document.querySelector(".controls .btn--default-2");
     expect(done.querySelector(".loader")).not.toBeNull();
-    expect(done.textContent.trim()).toBe("");
     await expect.element(done).toBeDisabled();
     expect(finalize).not.toHaveBeenCalled();
+  });
+
+  it("keeps an accessible name and exposes the busy state while loading", async () => {
+    await renderSteppy({ step: 3, loading: true });
+
+    const done = button("Done");
+    await expect.element(done).toBeInTheDocument();
+    await expect.element(done).toHaveAttribute("aria-busy", "true");
+    expect(document.querySelector(".loader").getAttribute("aria-hidden")).toBe(
+      "true",
+    );
+  });
+
+  it("hides the Done text visually while loading", async () => {
+    await renderSteppy({ step: 3, loading: true });
+
+    const label = document.querySelector(".controls .visually-hidden");
+    expect(label.textContent.trim()).toBe("Done");
+    const rect = label.getBoundingClientRect();
+    expect(rect.width).toBeLessThanOrEqual(1);
+    expect(rect.height).toBeLessThanOrEqual(1);
+  });
+
+  it("shows the Done text and no busy state when not loading", async () => {
+    await renderSteppy({ step: 3, loading: false });
+
+    await expect.element(button("Done")).not.toHaveAttribute("aria-busy");
+    expect(document.querySelector(".controls .visually-hidden")).toBeNull();
   });
 
   it("does not show the loader when not loading", async () => {

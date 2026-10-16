@@ -80,9 +80,12 @@
         @click="finalize"
         v-else
         :disabled="!currentTab?.isValid || loading"
+        :aria-busy="loading ? 'true' : undefined"
       >
-        <span v-if="loading" class="loader"></span>
-        <span v-else>{{ props.doneText }}</span>
+        <span v-if="loading" class="loader" aria-hidden="true"></span>
+        <span :class="{ 'visually-hidden': loading }">{{
+          props.doneText
+        }}</span>
       </button>
     </div>
   </div>
@@ -410,6 +413,18 @@ $transition: all 500ms ease;
     color: #fff;
     margin-left: auto;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .loader {
