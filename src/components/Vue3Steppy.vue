@@ -95,7 +95,7 @@
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { computed } from "vue";
 import CheckMark from "./CheckMark.vue";
 
 const emit = defineEmits(["update:step"]);
@@ -107,7 +107,7 @@ const props = defineProps({
   },
   tabs: {
     type: Array,
-    default: reactive([
+    default: () => [
       {
         title: "Step 1",
         iconSuccess: null,
@@ -123,7 +123,7 @@ const props = defineProps({
         iconSuccess: null,
         isValid: true,
       },
-    ]),
+    ],
   },
   finalize: {
     type: Function,

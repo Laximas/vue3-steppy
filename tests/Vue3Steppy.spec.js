@@ -187,6 +187,26 @@ describe("Controls", () => {
 });
 
 // ---------------------------------------------------------------------------
+// Defaults
+// ---------------------------------------------------------------------------
+
+describe("Defaults", () => {
+  it("renders three placeholder steps when no tabs are given", async () => {
+    await render(Vue3Steppy);
+
+    expect(items()).toHaveLength(3);
+  });
+
+  it("gives every instance its own default tabs array", () => {
+    const makeTabs = Vue3Steppy.props.tabs.default;
+
+    expect(typeof makeTabs).toBe("function");
+    expect(makeTabs()).not.toBe(makeTabs());
+    expect(makeTabs()).toHaveLength(3);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Progress bar
 // ---------------------------------------------------------------------------
 
