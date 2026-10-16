@@ -400,6 +400,24 @@ describe("Keyboard", () => {
     expect(document.activeElement).toBe(button("Back").element());
   });
 
+  it("shows a solid outline on the focused circle", async () => {
+    await renderSteppy({ step: 3 });
+
+    await userEvent.tab();
+
+    const style = getComputedStyle(circles()[0]);
+    expect(document.activeElement).toBe(circles()[0]);
+    expect(style.outlineStyle).toBe("solid");
+    expect(parseFloat(style.outlineWidth)).toBeGreaterThanOrEqual(2);
+    expect(parseFloat(style.outlineOffset)).toBe(3);
+  });
+
+  it("shows no outline on circles that are not focused", async () => {
+    await renderSteppy({ step: 3 });
+
+    expect(getComputedStyle(circles()[0]).outlineStyle).toBe("none");
+  });
+
   it("navigates on Enter", async () => {
     const view = await renderSteppy({ step: 3 });
 

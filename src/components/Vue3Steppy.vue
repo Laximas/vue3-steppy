@@ -280,10 +280,13 @@ $transition: all 500ms ease;
     &.clickable {
       cursor: pointer;
 
-      &:hover,
-      &:focus-visible {
+      &:hover {
         box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
-        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $primary-1;
+        outline-offset: 3px;
       }
     }
 
