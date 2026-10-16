@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: Ask a question
+    url: https://github.com/Laximas/vue3-steppy/discussions
+    about: Questions and ideas that aren't bug reports are welcome in Discussions.
   - name: Report a security vulnerability
     url: https://github.com/Laximas/vue3-steppy/blob/main/SECURITY.md
     about: Please report security issues privately, as described in the Security Policy.
