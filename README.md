@@ -11,6 +11,8 @@
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#dependencies">Dependencies</a> •
+  <a href="#changelog">Changelog</a> •
+  <a href="#contributing">Contributing</a> •
   <a href="#license">License</a>
 </p>
 
@@ -115,6 +117,15 @@ This software uses the following open source packages:
 - [gh-pages](https://www.npmjs.com/package/gh-pages)
 - [Vitest](https://vitest.dev) and [Playwright](https://playwright.dev)
 - [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for the release history.
+
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](./CONTRIBUTING.md), the [Code of Conduct](./CODE_OF_CONDUCT.md) and [ACCESSIBILITY.md](./ACCESSIBILITY.md) first.
+Security issues go through [SECURITY.md](./SECURITY.md), not public issues.
 
 ## License
 
