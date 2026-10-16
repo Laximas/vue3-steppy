@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/Laximas/vue3-steppy/blob/main/SECURITY.md
+    about: Please report security issues privately, as described in the Security Policy.
+  - name: Live demo
+    url: https://laximas.github.io/vue3-steppy/
+    about: Try Steppy in the browser before opening an issue.
