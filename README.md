@@ -48,7 +48,41 @@ Import
 import {Steppy} from 'vue3-steppy'
 ```
 
-For an implementation example, see the [App.vue](./src/App.vue) file in the repository.
+Use it with `v-model:step` and put the content of each step in the slot with that step's number:
+```vue
+<template>
+  <Steppy
+    v-model:step="step"
+    :tabs="tabs"
+    :loading="loading"
+    :finalize="finish"
+  >
+    <template #1>Content of the first step</template>
+    <template #2>Content of the second step</template>
+    <template #3>Content of the third step</template>
+  </Steppy>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { Steppy } from 'vue3-steppy'
+
+const step = ref(1)
+const loading = ref(false)
+
+const tabs = ref([
+  { title: 'Personal Info', description: 'Enter your details', isValid: true },
+  { title: 'Account Setup', description: 'Configure your account', isValid: true },
+  { title: 'Verification', description: 'Verify your email', isValid: true },
+])
+
+const finish = () => {
+  loading.value = true
+}
+</script>
+```
+
+For a complete example, see the [App.vue](./src/App.vue) file in the repository.
 
 ## Props
 
@@ -68,6 +102,17 @@ For an implementation example, see the [App.vue](./src/App.vue) file in the repo
 | `circleSize`       | Number   | `68`                    | Size of the circles in the step indicators.                                                       |
 | `contentMarginTop` | Number   | `60`                    | Top margin of the content area in pixels. Controls spacing between descriptions and content.      |
 
+## Events
+
+| Event         | Payload  | Description                                                                                                         |
+|---------------|----------|---------------------------------------------------------------------------------------------------------------------|
+| `update:step` | `number` | Emitted with the new step number when Back, Next or a clickable step circle is used. Bind it with `v-model:step`.   |
+
+## Slots
+
+| Slot            | Description                                                                                                 |
+|-----------------|-------------------------------------------------------------------------------------------------------------|
+| `#1`, `#2`, ... | One named slot per step, matching the tab's position in `tabs`. Its content is shown while that step is active. |
 
 ## Tab Object Structure
 
