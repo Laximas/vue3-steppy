@@ -9,6 +9,7 @@ export default [
     ignores: [
       "node_modules",
       "dist",
+      "dist-demo",
       "coverage",
       ".DS_Store",
       "dist-ssr",

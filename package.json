@@ -43,9 +43,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && shx cp ./src/vue3-steppy.d.ts dist",
-    "build:demo": "bash build-demo.sh",
+    "build:demo": "vite build -c vite.demo.config.js",
+    "prepublishOnly": "pnpm build",
     "predeploy": "npm run build:demo",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist-demo",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
