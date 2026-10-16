@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This changelog.
 - Dependabot version updates.
 
+### Fixed
+
+- CommonJS consumers (`require("vue3-steppy")`) now get the component.
+
 ## [1.7.0] - 2026-10-13
 
 ### Added

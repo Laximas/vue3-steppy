@@ -16,7 +16,12 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "lib/main.js"),
       name: "vue3-steppy",
-      fileName: (format) => `vue3-steppy.${format}.js`,
+      // "type": "module" makes .js ESM, so CommonJS and UMD need a .cjs extension.
+      fileName: (format) => {
+        if (format === "es") return "vue3-steppy.es.js";
+        if (format === "cjs") return "vue3-steppy.cjs";
+        return `vue3-steppy.${format}.cjs`;
+      },
     },
     rollupOptions: {
       external: ["vue"],

@@ -27,7 +27,7 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/vue3-steppy.cjs.js",
+  "main": "./dist/vue3-steppy.cjs",
   "module": "./dist/vue3-steppy.es.js",
   "types": "./dist/vue3-steppy.d.ts",
   "typings": "./dist/vue3-steppy.d.ts",
@@ -35,9 +35,10 @@
     ".": {
       "types": "./dist/vue3-steppy.d.ts",
       "import": "./dist/vue3-steppy.es.js",
-      "require": "./dist/vue3-steppy.cjs.js",
-      "default": "./dist/vue3-steppy.umd.js"
-    }
+      "require": "./dist/vue3-steppy.cjs",
+      "default": "./dist/vue3-steppy.umd.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "dev": "vite",
