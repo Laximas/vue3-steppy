@@ -626,6 +626,30 @@ describe("Layout", () => {
     );
   });
 
+  it("scales the step number with circleSize", async () => {
+    await renderSteppy({ step: 1, circleSize: 120 });
+
+    const number = circles()[0].querySelector(".number");
+    expect(parseFloat(getComputedStyle(number).fontSize)).toBeCloseTo(38.4, 1);
+  });
+
+  it("scales the check mark with circleSize", async () => {
+    await renderSteppy({ step: 2, circleSize: 120 });
+
+    const icon = circles()[0].querySelector(".icon-success");
+    expect(parseFloat(getComputedStyle(icon).width)).toBeCloseTo(42, 1);
+  });
+
+  it("keeps the default 68px look (22px number, 24px check mark)", async () => {
+    await renderSteppy({ step: 1 });
+
+    const circle = circles()[0];
+    const number = getComputedStyle(circle.querySelector(".number"));
+    const icon = getComputedStyle(circle.querySelector(".icon-success"));
+    expect(parseFloat(number.fontSize)).toBeCloseTo(22, 0);
+    expect(parseFloat(icon.width)).toBeCloseTo(24, 0);
+  });
+
   it("shows a pointer cursor on clickable circles only", async () => {
     await renderSteppy({ step: 2 });
 

@@ -266,8 +266,8 @@ $transition: all 500ms ease;
   transition: $transition;
 
   &-counter {
-    height: 68px;
-    width: 68px;
+    height: var(--circleSize);
+    width: var(--circleSize);
     display: grid;
     place-items: center;
     background-color: $primary-2;
@@ -289,12 +289,12 @@ $transition: all 500ms ease;
       position: absolute;
       opacity: 0;
       transform: scale(0);
-      width: 24px;
+      width: calc(var(--circleSize) * 0.35);
       transition: $transition;
     }
 
     .number {
-      font-size: 22px;
+      font-size: calc(var(--circleSize) * 0.32);
       transition: $transition;
     }
   }
@@ -330,19 +330,15 @@ $transition: all 500ms ease;
   .steppy-item-counter {
     border-color: $primary-1;
     font-weight: 600;
-    height: var(--circleSize);
-    width: var(--circleSize);
 
     .icon-success {
       opacity: 1;
       transform: scale(1);
-      width: calc(var(--circleSize) * 0.35);
     }
 
     .number {
       opacity: 0;
       transform: scale(0);
-      font-size: calc(var(--circleSize) * 0.32);
     }
   }
 
