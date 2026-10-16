@@ -6,8 +6,11 @@ Steppy aims to be usable by everyone, including people who navigate with a keybo
 
 - **Native buttons:** the Back, Next and Done controls are real `<button type="button">` elements, so they are focusable and announced correctly. They are `disabled` while the current step is invalid or loading.
 - **Current step:** the active step is marked with `aria-current="step"`.
-- **Clickable step indicators:** when a step can be jumped to (see the `linear` prop), its circle gets `role="button"`, `tabindex="0"` and an accessible name like "Go to step 2: Shipping", and can be activated with <kbd>Enter</kbd> or <kbd>Space</kbd>. Steps that can't be navigated to are not focusable.
-- **Focus styles:** clickable step indicators show a visible style on `:focus-visible`.
+- **Clickable step indicators:** when a step can be jumped to (see the `linear` prop), its circle gets `role="button"`, `tabindex="0"` and an accessible name like "Go to step 2: Shipping" (with "(completed)" added for finished steps), and can be activated with <kbd>Enter</kbd> or <kbd>Space</kbd>. Steps that can't be navigated to are not focusable.
+- **Decorative check marks:** the completed-step check marks are hidden from assistive technology (`aria-hidden`), so they aren't announced on every step. Completion is conveyed by "(completed)" in the step indicator's accessible name instead.
+- **Accessible loading state:** while `loading` is true, the Done button keeps its text as its accessible name (visually hidden behind the spinner), the spinner is hidden from assistive technology, and the button has `aria-busy="true"`.
+- **Clear focus outline:** clickable step indicators show a 2px solid outline in the primary color on `:focus-visible`.
+- **Reduced motion:** with `prefers-reduced-motion: reduce`, transitions are turned off and the loading spinner turns more slowly.
 - **Your content stays yours:** each step's content is rendered through a slot, so the forms and text inside the steps keep whatever accessibility you build into them.
 
 ## Known limitations
@@ -16,11 +19,7 @@ These are areas we know need work. Contributions are very welcome:
 
 - The step indicators are not wrapped in a list (`<ol>`), so screen readers don't announce "step 2 of 4".
 - The progress bar is purely visual and has no `role="progressbar"` or value attributes.
-- While `loading` is true, the Done button only shows a spinner, so it has no accessible name and the loading state isn't announced.
-- The focus style on step indicators is a subtle shadow that may not meet the WCAG 2.2 focus appearance guidance on every background.
-- The completed-step check mark is decorative but isn't hidden from assistive technology.
 - Step changes aren't announced, and focus isn't moved to the new step's content.
-- The loading spinner animation doesn't respect `prefers-reduced-motion`.
 
 ## Your responsibilities as an integrator
 
