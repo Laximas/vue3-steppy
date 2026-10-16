@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `vue` is now a peer dependency (`^3.5.0`).
+- Transitions are turned off and the loading spinner is slowed down when the user prefers reduced motion (`prefers-reduced-motion: reduce`).
 
 ### Fixed
 

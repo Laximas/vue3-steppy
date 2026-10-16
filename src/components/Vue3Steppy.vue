@@ -449,4 +449,20 @@ $transition: all 500ms ease;
     transform: rotate(360deg);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .steppy-progress-bar,
+  .steppy-item,
+  .steppy-item-counter .icon-success,
+  .steppy-item-counter .number,
+  .steppy-item .steppy-item-description,
+  .btn {
+    transition: none;
+  }
+
+  // Slower, not removed: the spinner is the only sign that work is running.
+  .loader {
+    animation-duration: 1.5s;
+  }
+}
 </style>

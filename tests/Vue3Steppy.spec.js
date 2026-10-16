@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-vue";
-import { page, userEvent } from "vitest/browser";
+import { cdp, page, userEvent } from "vitest/browser";
 import Vue3Steppy from "@/components/Vue3Steppy.vue";
 
 // ---------------------------------------------------------------------------
@@ -597,6 +597,54 @@ describe("Check marks", () => {
     await expect
       .element(page.getByRole("img", { name: "Check Mark" }))
       .not.toBeInTheDocument();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Reduced motion
+// ---------------------------------------------------------------------------
+
+describe("Reduced motion", () => {
+  const emulateMotion = (value) =>
+    cdp().send("Emulation.setEmulatedMedia", {
+      features: [{ name: "prefers-reduced-motion", value }],
+    });
+
+  afterEach(() => emulateMotion("no-preference"));
+
+  it("keeps the transitions by default", async () => {
+    await emulateMotion("no-preference");
+    await renderSteppy({ step: 3 });
+
+    expect(getComputedStyle(progressBar()).transitionDuration).toBe("0.5s");
+    expect(getComputedStyle(items()[0]).transitionDuration).toBe("0.5s");
+  });
+
+  it("turns the transitions off when the user prefers reduced motion", async () => {
+    await emulateMotion("reduce");
+    await renderSteppy({ step: 3 });
+
+    const animated = [
+      progressBar(),
+      items()[0],
+      circles()[0].querySelector(".icon-success"),
+      circles()[0].querySelector(".number"),
+      document.querySelector(".steppy-item-description"),
+      document.querySelector(".controls .btn"),
+    ];
+    for (const element of animated) {
+      expect(getComputedStyle(element).transitionDuration).toBe("0s");
+    }
+  });
+
+  it("slows the loader down instead of removing it", async () => {
+    await emulateMotion("reduce");
+    await renderSteppy({ step: 3, loading: true });
+
+    const style = getComputedStyle(document.querySelector(".loader"));
+    // Vue scopes keyframe names (rotation-<hash>).
+    expect(style.animationName).toMatch(/^rotation/);
+    expect(style.animationDuration).toBe("1.5s");
   });
 });
 
