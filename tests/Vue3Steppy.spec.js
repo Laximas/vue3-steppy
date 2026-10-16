@@ -118,6 +118,19 @@ describe("Controls", () => {
     await expect.element(button("Next")).toBeDisabled();
   });
 
+  it("renders with the forward button disabled when step is out of range", async () => {
+    const tabs = demoTabs().slice(0, 2);
+    await renderSteppy({ tabs, step: 5 });
+
+    await expect.element(button("Next")).toBeDisabled();
+  });
+
+  it("renders with the forward button disabled when there are no tabs", async () => {
+    await renderSteppy({ tabs: [], step: 1 });
+
+    await expect.element(button("Next")).toBeDisabled();
+  });
+
   it("shows Done instead of Next on the last step and calls finalize", async () => {
     const finalize = vi.fn();
     await renderSteppy({ step: 3, finalize });

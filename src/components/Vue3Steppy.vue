@@ -76,7 +76,7 @@
         type="button"
         @click="incrementStep"
         v-if="props.step !== props.tabs.length"
-        :disabled="!props.tabs[props.step - 1].isValid"
+        :disabled="!currentTab?.isValid"
       >
         {{ props.nextText }}
       </button>
@@ -85,7 +85,7 @@
         type="button"
         @click="finalize"
         v-else
-        :disabled="!props.tabs[props.step - 1].isValid || loading"
+        :disabled="!currentTab?.isValid || loading"
       >
         <span v-if="loading" class="loader"></span>
         <span v-else>{{ props.doneText }}</span>
@@ -182,6 +182,8 @@ const cssVars = computed(() => {
     "--contentMarginTop": `${props.contentMarginTop}px`,
   };
 });
+
+const currentTab = computed(() => props.tabs[props.step - 1]);
 
 const incrementStep = () => {
   const step = props.step + 1;
