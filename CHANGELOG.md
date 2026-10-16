@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This changelog.
 - Dependabot version updates.
 
+### Changed
+
+- `vue` is now a peer dependency (`^3.5.0`).
+
 ### Fixed
 
 - CommonJS consumers (`require("vue3-steppy")`) now get the component.

@@ -106,7 +106,7 @@ The tests run in headless Chromium. Install it once with `pnpm exec playwright i
 
 This software uses the following open source packages:
 
-- [Vue 3](https://vuejs.org)
+- [Vue 3](https://vuejs.org) (3.5+, a peer dependency: install it in your app)
 
 #### Dev Dependencies
 - [Vite](https://vitejs.dev)
