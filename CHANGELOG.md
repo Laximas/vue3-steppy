@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-17
+
 ### Added
 
 - Contributing guide, code of conduct, accessibility statement, issue forms and pull request template.
@@ -214,7 +216,8 @@ Dependency cleanup.
 
 Initial release: stepper with `primaryColor1` / `primaryColor2` props, SVG check mark, and styles injected by JS.
 
-[Unreleased]: https://github.com/Laximas/vue3-steppy/compare/1.7.0...HEAD
+[Unreleased]: https://github.com/Laximas/vue3-steppy/compare/1.7.1...HEAD
+[1.7.1]: https://github.com/Laximas/vue3-steppy/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/Laximas/vue3-steppy/compare/1.6.3...1.7.0
 [1.6.3]: https://github.com/Laximas/vue3-steppy/compare/1.6.2...1.6.3
 [1.6.2]: https://github.com/Laximas/vue3-steppy/compare/1.6.1...1.6.2
