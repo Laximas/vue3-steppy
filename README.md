@@ -159,7 +159,6 @@ This software uses the following open source packages:
 - [sass](https://www.npmjs.com/package/sass)
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
-- [gh-pages](https://www.npmjs.com/package/gh-pages)
 - [Vitest](https://vitest.dev) and [Playwright](https://playwright.dev)
 - [CssInjectedByJs](https://www.npmjs.com/package/vite-plugin-css-injected-by-js)
 
