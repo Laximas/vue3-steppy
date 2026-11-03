@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Back button no longer works while `loading` is true, so users can't leave a step that is being submitted. Next is locked as well, matching the step circles.
 - Moving from Next to Done no longer replaces the button, so it keeps keyboard focus.
 
+### Security
+
+- Dev tooling only: `minimatch` override to `^11.0.1` ([GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249)) and `glob` override to `^14.0.2` ([GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4)).
+
 ## [1.7.1] - 2026-10-17
 
 ### Added
