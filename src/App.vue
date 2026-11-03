@@ -7,22 +7,16 @@
     :finalize="finalize"
     :before-next="beforeNext"
     :contentMarginTop="100"
-    keep-mounted
   >
-    <template #1>
-      <input
-        class="demo-input"
-        aria-label="Your name"
-        placeholder="Your name (kept when you navigate)"
-      />
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt
-      hendrerit risus nec vehicula. Etiam in aliquet velit. Nunc in bibendum
-      ligula, quis vehicula ante. Nullam placerat massa ante, non dapibus lacus
-      interdum vitae. Donec eu leo at elit efficitur vehicula in at velit. Fusce
-      nec ante nec erat pellentesque fringilla. Sed mollis, ante at faucibus
-      aliquam, turpis ante molestie lectus, sit amet mollis nisi velit sit amet
-      ligula.
-    </template>
+    <template #1
+      >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+      tincidunt hendrerit risus nec vehicula. Etiam in aliquet velit. Nunc in
+      bibendum ligula, quis vehicula ante. Nullam placerat massa ante, non
+      dapibus lacus interdum vitae. Donec eu leo at elit efficitur vehicula in
+      at velit. Fusce nec ante nec erat pellentesque fringilla. Sed mollis, ante
+      at faucibus aliquam, turpis ante molestie lectus, sit amet mollis nisi
+      velit sit amet ligula.</template
+    >
     <template #2
       >Vivamus porttitor sodales ipsum in interdum. Proin suscipit ac nunc a
       tristique. Curabitur et pharetra diam, nec porttitor risus. Curabitur vel
@@ -93,13 +87,5 @@ body {
   display: flex;
   justify-content: center;
   overflow-x: hidden;
-}
-
-.demo-input {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-  padding: 8px;
 }
 </style>
