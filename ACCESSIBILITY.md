@@ -8,7 +8,9 @@ Steppy aims to be usable by everyone, including people who navigate with a keybo
 - **Current step:** the active step is marked with `aria-current="step"`.
 - **Clickable step indicators:** when a step can be jumped to (see the `linear` prop), its circle gets `role="button"`, `tabindex="0"` and an accessible name like "Go to step 2: Shipping" (with "(completed)" added for finished steps), and can be activated with <kbd>Enter</kbd> or <kbd>Space</kbd>. Steps that can't be navigated to are not focusable.
 - **Decorative check marks:** the completed-step check marks are hidden from assistive technology (`aria-hidden`), so they aren't announced on every step. Completion is conveyed by "(completed)" in the step indicator's accessible name instead.
-- **Accessible loading state:** while `loading` is true, the Done button keeps its text as its accessible name (visually hidden behind the spinner), the spinner is hidden from assistive technology, and the button has `aria-busy="true"`.
+- **Accessible loading state:** while `loading` is true, a `beforeNext` guard is running or `finalize` is pending, the forward button keeps its text as its accessible name (visually hidden behind the spinner), the spinner is hidden from assistive technology, and the button has `aria-busy="true"`. Back, Next and the step circles are locked during that time.
+- **Focus during guards:** if the forward button had keyboard focus when a `beforeNext` guard or `finalize` started, it gets focus back when they finish.
+- **Compact layout:** on narrow screens, step circles shrink to 32px (or to `circleSize` if that is smaller), and the current step's title and description move to a line below the circles. The clickable circles keep their full accessible names.
 - **Clear focus outline:** clickable step indicators show a 2px solid outline in the primary color on `:focus-visible`.
 - **Reduced motion:** with `prefers-reduced-motion: reduce`, transitions are turned off and the loading spinner turns more slowly.
 - **Your content stays yours:** each step's content is rendered through a slot, so the forms and text inside the steps keep whatever accessibility you build into them.
@@ -28,6 +30,8 @@ These are areas we know need work. Contributions are very welcome:
 - **Button text:** if you customize `backText`, `nextText` or `doneText`, keep the labels descriptive.
 - **Custom icons:** if you pass an `iconSuccess` image, make sure it works as a decorative image.
 - **Slot content:** label your form fields, surface validation errors to assistive technology and manage focus inside your step content.
+- **Blocked steps:** when `beforeNext` keeps the user on a step, show why and make sure the message reaches assistive technology, for example with `role="alert"`.
+- **Small circles:** a `circleSize` below 24px falls short of the WCAG 2.2 target size for clickable step circles.
 
 ## Reporting an accessibility issue
 

@@ -26,6 +26,9 @@ export const everything: SteppyProps = {
   step: 2,
   tabs: [richTab, { title: "Plain", iconSuccess: "check.svg", isValid: true }],
   finalize: () => {},
+  beforeNext: (step: number) => step > 0,
+  keepMounted: true,
+  compact: "auto",
   backText: "Back",
   nextText: "Next",
   doneText: "Done",
@@ -41,6 +44,19 @@ export const everything: SteppyProps = {
     void next;
   },
 };
+
+// Async callbacks, and guards that only return `false` to block.
+export const asyncCallbacks: SteppyProps = {
+  finalize: async () => 42,
+  beforeNext: async (step: number) => step > 0,
+};
+export const voidGuard: SteppyProps = { beforeNext: () => {} };
+export const blockingGuard: SteppyProps = {
+  beforeNext: async (step: number) => {
+    if (step === 1) return false;
+  },
+};
+export const forcedCompact: SteppyProps = { compact: true };
 
 // The component itself accepts those props.
 export const vnode = h(Steppy, {
@@ -68,6 +84,18 @@ export const badStep: SteppyProps = { step: "one" };
 
 // @ts-expect-error title must be a string
 export const badTitle: SteppyTab = { title: 1, isValid: true };
+
+// @ts-expect-error keepMounted must be a boolean
+export const badKeepMounted: SteppyProps = { keepMounted: "yes" };
+
+// @ts-expect-error compact is a boolean or "auto"
+export const badCompact: SteppyProps = { compact: "always" };
+
+// @ts-expect-error beforeNext must be a function
+export const badGuardType: SteppyProps = { beforeNext: true };
+
+// @ts-expect-error a guard resolves to a boolean or nothing
+export const badGuardResult: SteppyProps = { beforeNext: async () => "yes" };
 
 const wantsString = (step: string) => void step;
 

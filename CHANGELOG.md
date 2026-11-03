@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `keepMounted` prop: keeps every step mounted and hides the inactive ones, so their state survives navigation.
+- `beforeNext` prop: a sync or async guard that runs before moving forward. Returning `false` stays on the step, and the stepper shows a spinner and locks while a promise is pending.
+- `finalize` can return a promise. The stepper stays locked until it settles.
+- Compact layout for narrow screens, on by default at 640px wide and below. Use the new `compact` prop to force it on or off.
+
+### Changed
+
+- On screens 640px wide and below, Steppy now uses the compact layout. Set `:compact="false"` to keep the previous layout.
+
+### Fixed
+
+- The Back button no longer works while `loading` is true, so users can't leave a step that is being submitted. Next is locked as well, matching the step circles.
+- Moving from Next to Done no longer replaces the button, so it keeps keyboard focus.
+
 ## [1.7.1] - 2026-10-17
 
 ### Added

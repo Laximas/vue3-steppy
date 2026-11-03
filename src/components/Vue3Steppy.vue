@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-steppy" :style="cssVars">
+  <div class="wrapper-steppy" :class="compactClass" :style="cssVars">
     <div class="steppy">
       <div class="steppy-progress">
         <div
@@ -21,7 +21,6 @@
         <div
           class="steppy-item-counter"
           :class="{ clickable: canNavigateTo(index + 1) }"
-          :style="circleStyles"
           :role="canNavigateTo(index + 1) ? 'button' : undefined"
           :tabindex="canNavigateTo(index + 1) ? 0 : undefined"
           :aria-label="
@@ -50,8 +49,24 @@
       </div>
     </div>
 
+    <div v-if="currentTab" class="steppy-compact-label">
+      <span>
+        <span class="steppy-compact-count"
+          >{{ props.step }} / {{ props.tabs.length }}</span
+        >
+        {{ currentTab.title }}
+      </span>
+      <span v-if="currentTab.description" class="steppy-compact-description">{{
+        currentTab.description
+      }}</span>
+    </div>
+
     <div class="steppy-content" v-for="index in props.tabs.length" :key="index">
-      <div class="steppy-pane" v-if="props.step === index">
+      <div
+        class="steppy-pane"
+        v-if="props.keepMounted || props.step === index"
+        v-show="props.step === index"
+      >
         <slot :name="index"></slot>
       </div>
     </div>
@@ -62,29 +77,21 @@
         type="button"
         @click="decrementStep"
         v-if="props.step !== 1"
+        :disabled="isBusy"
       >
         {{ props.backText }}
       </button>
       <button
+        ref="forwardButton"
         class="btn btn--default-2"
         type="button"
-        @click="incrementStep"
-        v-if="props.step !== props.tabs.length"
-        :disabled="!currentTab?.isValid"
+        @click="handleForward"
+        :disabled="!currentTab?.isValid || isBusy"
+        :aria-busy="isBusy ? 'true' : undefined"
       >
-        {{ props.nextText }}
-      </button>
-      <button
-        class="btn btn--default-2"
-        type="button"
-        @click="finalize"
-        v-else
-        :disabled="!currentTab?.isValid || loading"
-        :aria-busy="loading ? 'true' : undefined"
-      >
-        <span v-if="loading" class="loader" aria-hidden="true"></span>
-        <span :class="{ 'visually-hidden': loading }">{{
-          props.doneText
+        <span v-if="isBusy" class="loader" aria-hidden="true"></span>
+        <span :class="{ 'visually-hidden': isBusy }">{{
+          isLastStep ? props.doneText : props.nextText
         }}</span>
       </button>
     </div>
@@ -92,7 +99,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, nextTick, ref, useTemplateRef } from "vue";
 import CheckMark from "./CheckMark.vue";
 
 const emit = defineEmits(["update:step"]);
@@ -127,6 +134,19 @@ const props = defineProps({
     default: function () {
       return {};
     },
+  },
+  beforeNext: {
+    type: Function,
+    default: null,
+  },
+  keepMounted: {
+    type: Boolean,
+    default: false,
+  },
+  compact: {
+    type: [Boolean, String],
+    default: "auto",
+    validator: (value) => value === "auto" || typeof value === "boolean",
   },
   backText: {
     type: String,
@@ -176,15 +196,54 @@ const cssVars = computed(() => {
     "--primaryColor2": props.primaryColor2,
     "--backgroundColor": props.backgroundColor,
     "--circleSize": `${props.circleSize}px`,
+    "--compactCircleSize": `${Math.min(props.circleSize, 32)}px`,
     "--contentMarginTop": `${props.contentMarginTop}px`,
   };
 });
 
 const currentTab = computed(() => props.tabs[props.step - 1]);
 
-const incrementStep = () => {
-  const step = props.step + 1;
-  emit("update:step", step);
+const isLastStep = computed(() => props.step === props.tabs.length);
+
+const compactClass = computed(() => {
+  if (props.compact === "auto") return "steppy-compact-auto";
+  return props.compact ? "steppy-compact" : undefined;
+});
+
+const forwardButton = useTemplateRef("forwardButton");
+const pending = ref(false);
+const isBusy = computed(() => props.loading || pending.value);
+
+// Locks the stepper until `task` settles. Disabling a focused button drops
+// keyboard focus, so it is handed back afterwards.
+const runLocked = async (task) => {
+  const button = forwardButton.value;
+  const hadFocus = button?.matches(":focus");
+  pending.value = true;
+  try {
+    return await task();
+  } finally {
+    pending.value = false;
+    if (hadFocus) {
+      await nextTick();
+      button.focus();
+    }
+  }
+};
+
+const moveForward = async (target) => {
+  const from = props.step;
+  if (props.beforeNext) {
+    const allowed = await runLocked(() => props.beforeNext(from));
+    // The parent may have changed the step while the guard was running.
+    if (allowed === false || props.step !== from) return;
+  }
+  emit("update:step", target);
+};
+
+const handleForward = (event) => {
+  if (isLastStep.value) return runLocked(() => props.finalize(event));
+  return moveForward(props.step + 1);
 };
 
 const decrementStep = () => {
@@ -193,7 +252,7 @@ const decrementStep = () => {
 };
 
 const canNavigateTo = (target) => {
-  if (props.loading || target === props.step) return false;
+  if (isBusy.value || target === props.step) return false;
   return props.linear ? target < props.step : true;
 };
 
@@ -203,19 +262,14 @@ const circleLabel = (item, target) => {
 };
 
 const goToStep = (target) => {
-  if (canNavigateTo(target)) emit("update:step", target);
+  if (!canNavigateTo(target)) return;
+  if (target > props.step) return moveForward(target);
+  emit("update:step", target);
 };
 
 const steppyProgress = computed(() => {
   if (props.tabs.length <= 1) return "0%";
   return (100 / (props.tabs.length - 1)) * (props.step - 1) + "%";
-});
-
-const circleStyles = computed(() => {
-  return {
-    height: `${props.circleSize}px`,
-    width: `${props.circleSize}px`,
-  };
 });
 </script>
 
@@ -374,6 +428,27 @@ $transition: all 500ms ease;
   }
 }
 
+.steppy-compact-label {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.steppy-compact-count {
+  font-weight: 600;
+}
+
+.steppy-compact-description {
+  font-size: 12px;
+  font-weight: 400;
+}
+
 .steppy-pane {
   color: #333;
   text-align: center;
@@ -447,6 +522,40 @@ $transition: all 500ms ease;
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@mixin compact {
+  padding: 16px;
+
+  .steppy-item-counter {
+    --circleSize: var(--compactCircleSize);
+  }
+
+  .steppy-item-text {
+    display: none;
+  }
+
+  .steppy-compact-label {
+    display: flex;
+  }
+
+  .steppy-pane {
+    padding: 16px;
+    // the labels this margin makes room for are gone
+    margin-top: 16px;
+  }
+}
+
+.wrapper-steppy.steppy-compact {
+  @include compact;
+}
+
+// A media query, not a container query: containment would collapse the wrapper
+// inside shrink-to-fit parents such as flex items.
+@media (max-width: 640px) {
+  .wrapper-steppy.steppy-compact-auto {
+    @include compact;
   }
 }
 

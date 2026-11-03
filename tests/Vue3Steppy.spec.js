@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { h } from "vue";
 import { render } from "vitest-browser-vue";
 import { cdp, page, userEvent } from "vitest/browser";
 import Vue3Steppy from "@/components/Vue3Steppy.vue";
@@ -597,6 +598,468 @@ describe("Check marks", () => {
     await expect
       .element(page.getByRole("img", { name: "Check Mark" }))
       .not.toBeInTheDocument();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// keepMounted
+// ---------------------------------------------------------------------------
+
+describe("keepMounted", () => {
+  const inputSlots = () => ({
+    1: () => h("input", { "data-testid": "first" }),
+    2: () => h("input", { "data-testid": "second" }),
+    3: () => h("input", { "data-testid": "third" }),
+  });
+  const renderWithInputs = (props = {}) =>
+    render(Vue3Steppy, {
+      props: { tabs: demoTabs(), step: 1, ...props },
+      slots: inputSlots(),
+    });
+  const first = () => document.querySelector("[data-testid=first]");
+
+  it("renders only the current step by default", async () => {
+    await renderWithInputs();
+
+    expect(document.querySelectorAll("input")).toHaveLength(1);
+    expect(first()).not.toBeNull();
+  });
+
+  it("loses the state of a step when leaving it by default", async () => {
+    const view = await renderWithInputs();
+    first().value = "typed";
+
+    await view.rerender({ step: 2 });
+    await view.rerender({ step: 1 });
+
+    expect(first().value).toBe("");
+  });
+
+  it("keeps the state of a step when leaving it", async () => {
+    const view = await renderWithInputs({ keepMounted: true });
+    const element = first();
+    element.value = "typed";
+
+    await view.rerender({ step: 2 });
+    await view.rerender({ step: 1 });
+
+    expect(first()).toBe(element);
+    expect(first().value).toBe("typed");
+  });
+
+  it("shows only the current step", async () => {
+    await renderWithInputs({ keepMounted: true, step: 2 });
+
+    expect(document.querySelectorAll("input")).toHaveLength(3);
+    const visible = [...document.querySelectorAll(".steppy-pane")].map(
+      (pane) => getComputedStyle(pane).display !== "none",
+    );
+    expect(visible).toEqual([false, true, false]);
+  });
+
+  it("takes hidden steps out of the tab order", async () => {
+    await renderWithInputs({ keepMounted: true, step: 2 });
+
+    first().focus();
+
+    expect(document.activeElement).not.toBe(first());
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Busy state: loading, beforeNext and async finalize
+// ---------------------------------------------------------------------------
+
+describe("Busy state", () => {
+  const deferred = () => {
+    let resolve, reject;
+    const promise = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+    return { promise, resolve, reject };
+  };
+
+  const forward = () => document.querySelector(".controls .btn--default-2");
+
+  const expectLocked = async () => {
+    await expect.element(forward()).toBeDisabled();
+    await expect.element(forward()).toHaveAttribute("aria-busy", "true");
+    expect(forward().querySelector(".loader")).not.toBeNull();
+    expect(clickableFlags().some(Boolean)).toBe(false);
+  };
+
+  const expectUnlocked = async () => {
+    await expect.element(forward()).toBeEnabled();
+    await expect.element(forward()).not.toHaveAttribute("aria-busy");
+    expect(forward().querySelector(".loader")).toBeNull();
+  };
+
+  describe("loading", () => {
+    it("disables Back on the last step", async () => {
+      await renderSteppy({ step: 3, loading: true });
+
+      await expect.element(button("Back")).toBeDisabled();
+    });
+
+    it("locks Back and Next on the other steps too", async () => {
+      await renderSteppy({ step: 2, loading: true });
+
+      await expect.element(button("Back")).toBeDisabled();
+      await expect.element(button("Next")).toBeDisabled();
+    });
+
+    it("re-enables Back when loading ends", async () => {
+      const view = await renderSteppy({ step: 3, loading: true });
+
+      await view.rerender({ loading: false });
+
+      await expect.element(button("Back")).toBeEnabled();
+    });
+  });
+
+  describe("beforeNext", () => {
+    it("calls the guard with the current step and moves on when it returns true", async () => {
+      const beforeNext = vi.fn(() => true);
+      const view = await renderSteppy({ step: 2, beforeNext });
+
+      await userEvent.click(button("Next"));
+
+      await vi.waitFor(() => expect(stepEvents(view)).toEqual([3]));
+      expect(beforeNext).toHaveBeenCalledTimes(1);
+      expect(beforeNext).toHaveBeenCalledWith(2);
+    });
+
+    it("moves on when the guard returns nothing", async () => {
+      const view = await renderSteppy({ step: 1, beforeNext: () => {} });
+
+      await userEvent.click(button("Next"));
+
+      await vi.waitFor(() => expect(stepEvents(view)).toEqual([2]));
+    });
+
+    it.each([
+      ["sync", () => false],
+      ["async", async () => false],
+    ])("stays when a %s guard returns false", async (_, beforeNext) => {
+      const view = await renderSteppy({ step: 1, beforeNext });
+
+      await userEvent.click(button("Next"));
+
+      await expectUnlocked();
+      expect(view.emitted()["update:step"]).toBeUndefined();
+    });
+
+    it("locks the stepper while an async guard runs", async () => {
+      const guard = deferred();
+      const view = await renderSteppy({
+        step: 2,
+        beforeNext: () => guard.promise,
+      });
+
+      await userEvent.click(button("Next"));
+
+      await expectLocked();
+      await expect.element(button("Back")).toBeDisabled();
+      // The button keeps its name behind the spinner.
+      await expect.element(button("Next")).toBeInTheDocument();
+      expect(view.emitted()["update:step"]).toBeUndefined();
+
+      guard.resolve(true);
+
+      await vi.waitFor(() => expect(stepEvents(view)).toEqual([3]));
+      await expectUnlocked();
+      await expect.element(button("Back")).toBeEnabled();
+    });
+
+    it("stays and unlocks when the guard rejects", async () => {
+      const errorHandler = vi.fn();
+      const view = await render(Vue3Steppy, {
+        props: {
+          tabs: demoTabs(),
+          step: 1,
+          beforeNext: () => Promise.reject(new Error("nope")),
+        },
+        global: { config: { errorHandler } },
+      });
+
+      await userEvent.click(button("Next"));
+
+      await vi.waitFor(() => expect(errorHandler).toHaveBeenCalledTimes(1));
+      await expectUnlocked();
+      expect(view.emitted()["update:step"]).toBeUndefined();
+    });
+
+    it("does not emit a stale step when the parent moved on meanwhile", async () => {
+      const guard = deferred();
+      const view = await renderSteppy({
+        step: 1,
+        beforeNext: () => guard.promise,
+      });
+
+      await userEvent.click(button("Next"));
+      await view.rerender({ step: 3 });
+      guard.resolve(true);
+
+      await expectUnlocked();
+      expect(view.emitted()["update:step"]).toBeUndefined();
+    });
+
+    it("guards forward jumps with linear: false", async () => {
+      const beforeNext = vi.fn(() => false);
+      const view = await renderSteppy({ step: 1, linear: false, beforeNext });
+
+      await userEvent.click(circles()[2]);
+
+      await expectUnlocked();
+      expect(beforeNext).toHaveBeenCalledWith(1);
+      expect(view.emitted()["update:step"]).toBeUndefined();
+    });
+
+    it("jumps to the clicked step when the guard allows it", async () => {
+      const view = await renderSteppy({
+        step: 1,
+        linear: false,
+        beforeNext: () => true,
+      });
+
+      await userEvent.click(circles()[2]);
+
+      await vi.waitFor(() => expect(stepEvents(view)).toEqual([3]));
+    });
+
+    it("does not guard moving backwards", async () => {
+      const beforeNext = vi.fn(() => false);
+      const view = await renderSteppy({ step: 3, beforeNext });
+
+      await userEvent.click(button("Back"));
+      await userEvent.click(circles()[0]);
+
+      expect(beforeNext).not.toHaveBeenCalled();
+      expect(stepEvents(view)).toEqual([2, 1]);
+    });
+
+    it("does not guard Done", async () => {
+      const beforeNext = vi.fn(() => false);
+      const finalize = vi.fn();
+      await renderSteppy({ step: 3, beforeNext, finalize });
+
+      await userEvent.click(button("Done"));
+
+      expect(beforeNext).not.toHaveBeenCalled();
+      expect(finalize).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not run while the current tab is invalid", async () => {
+      const tabs = demoTabs();
+      tabs[0].isValid = false;
+      const beforeNext = vi.fn(() => true);
+      await renderSteppy({ tabs, step: 1, beforeNext });
+
+      await expect.element(button("Next")).toBeDisabled();
+      expect(beforeNext).not.toHaveBeenCalled();
+    });
+
+    it("gives keyboard focus back when the guard blocks", async () => {
+      const guard = deferred();
+      await renderSteppy({ step: 1, beforeNext: () => guard.promise });
+
+      forward().focus();
+      await userEvent.keyboard("{Enter}");
+      await expectLocked();
+
+      guard.resolve(false);
+      await expectUnlocked();
+
+      await vi.waitFor(() => expect(document.activeElement).toBe(forward()));
+    });
+  });
+
+  describe("async finalize", () => {
+    it("locks the stepper until the promise settles", async () => {
+      const work = deferred();
+      await renderSteppy({ step: 3, finalize: () => work.promise });
+
+      await userEvent.click(button("Done"));
+
+      await expectLocked();
+      await expect.element(button("Back")).toBeDisabled();
+
+      work.resolve();
+
+      await expectUnlocked();
+      await expect.element(button("Back")).toBeEnabled();
+    });
+
+    it("unlocks when the promise rejects", async () => {
+      const errorHandler = vi.fn();
+      await render(Vue3Steppy, {
+        props: {
+          tabs: demoTabs(),
+          step: 3,
+          finalize: () => Promise.reject(new Error("nope")),
+        },
+        global: { config: { errorHandler } },
+      });
+
+      await userEvent.click(button("Done"));
+
+      await vi.waitFor(() => expect(errorHandler).toHaveBeenCalledTimes(1));
+      await expectUnlocked();
+    });
+
+    it("does not stay busy after a synchronous finalize", async () => {
+      await renderSteppy({ step: 3, finalize: () => {} });
+
+      await userEvent.click(button("Done"));
+
+      await expectUnlocked();
+    });
+
+    it("stays locked while the parent keeps loading on", async () => {
+      const view = await renderSteppy({ step: 3, finalize: async () => {} });
+
+      await view.rerender({ loading: true });
+
+      await expect.element(forward()).toBeDisabled();
+    });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Compact layout (phones and forced with the `compact` prop)
+// ---------------------------------------------------------------------------
+
+describe("Compact layout", () => {
+  const PHONE = [375, 667];
+  const DESKTOP = [1024, 768];
+
+  const label = () => document.querySelector(".steppy-compact-label");
+  const isShown = (element) => getComputedStyle(element).display !== "none";
+  const expectCompact = (expected) => {
+    expect(isShown(label())).toBe(expected);
+    expect(isShown(texts()[0])).toBe(!expected);
+  };
+
+  afterEach(() => page.viewport(...DESKTOP));
+
+  it("is off on wide screens by default", async () => {
+    await renderSteppy({ step: 2 });
+
+    expectCompact(false);
+  });
+
+  it("turns on by itself on phones", async () => {
+    await page.viewport(...PHONE);
+    await renderSteppy({ step: 2 });
+
+    expectCompact(true);
+  });
+
+  it("switches at the 640px breakpoint", async () => {
+    await page.viewport(640, 667);
+    await renderSteppy({ step: 2 });
+    expectCompact(true);
+
+    await page.viewport(641, 667);
+    await vi.waitFor(() => expectCompact(false));
+  });
+
+  it("can be forced on wide screens", async () => {
+    await renderSteppy({ step: 2, compact: true });
+
+    expectCompact(true);
+  });
+
+  it("can be turned off on phones", async () => {
+    await page.viewport(...PHONE);
+    await renderSteppy({ step: 2, compact: false });
+
+    expectCompact(false);
+  });
+
+  it("shows the position, title and description of the current step", async () => {
+    await renderSteppy({ step: 2, compact: true });
+
+    const [title, description] = label().children;
+    expect(title.textContent.replace(/\s+/g, " ").trim()).toBe(
+      "2 / 3 Account Setup",
+    );
+    expect(description.textContent).toBe("Configure your account");
+  });
+
+  it("follows the step", async () => {
+    const view = await renderSteppy({ step: 1, compact: true });
+
+    await view.rerender({ step: 3 });
+
+    expect(label().textContent).toContain("3 / 3");
+    expect(label().textContent).toContain("Verification");
+  });
+
+  it("leaves the description out when the tab has none", async () => {
+    await renderSteppy({
+      tabs: [{ title: "Only step", isValid: true }],
+      compact: true,
+    });
+
+    expect(document.querySelector(".steppy-compact-description")).toBeNull();
+  });
+
+  it("renders no label when step is out of range", async () => {
+    await renderSteppy({ step: 9, compact: true });
+
+    expect(label()).toBeNull();
+  });
+
+  it("fits five steps on a phone without overlap or page overflow", async () => {
+    await page.viewport(...PHONE);
+    await renderSteppy({ tabs: longTabs(), step: 3 });
+
+    const wrapper = document
+      .querySelector(".wrapper-steppy")
+      .getBoundingClientRect();
+    const rects = circles().map((circle) => circle.getBoundingClientRect());
+
+    rects.forEach((rect, index) => {
+      expect(rect.left).toBeGreaterThanOrEqual(wrapper.left);
+      expect(rect.right).toBeLessThanOrEqual(wrapper.right);
+      if (index > 0) expect(rect.left).toBeGreaterThan(rects[index - 1].right);
+    });
+    expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(
+      window.innerWidth,
+    );
+  });
+
+  it("caps the circles at 32px and scales their content", async () => {
+    await renderSteppy({ step: 2, compact: true, circleSize: 120 });
+
+    const circle = getComputedStyle(circles()[0]);
+    const number = circles()[0].querySelector(".number");
+    expect(parseFloat(circle.width)).toBe(32);
+    expect(parseFloat(circle.height)).toBe(32);
+    expect(parseFloat(getComputedStyle(number).fontSize)).toBeCloseTo(10.24, 1);
+  });
+
+  it("keeps a circleSize smaller than the cap", async () => {
+    await renderSteppy({ step: 2, compact: true, circleSize: 24 });
+
+    expect(parseFloat(getComputedStyle(circles()[0]).width)).toBe(24);
+  });
+
+  it("uses the regular circleSize when not compact", async () => {
+    await renderSteppy({ step: 2, circleSize: 120 });
+
+    expect(parseFloat(getComputedStyle(circles()[0]).width)).toBe(120);
+  });
+
+  it("keeps completed steps clickable", async () => {
+    await page.viewport(...PHONE);
+    const view = await renderSteppy({ step: 3 });
+
+    await userEvent.click(circles()[0]);
+
+    expect(stepEvents(view)).toEqual([1]);
   });
 });
 

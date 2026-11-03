@@ -90,11 +90,14 @@ For a complete example, see the [App.vue](./src/App.vue) file in the repository.
 |--------------------|----------|-------------------------|---------------------------------------------------------------------------------------------------|
 | `step`             | Number   | `1`                     | The current step number.                                                                          |
 | `tabs`             | Array    | Three placeholder steps | Array of step objects with titles, descriptions, and flags for validity and success icons.        |
-| `finalize`         | Function | `() => {}`              | Function to call when the final step is completed.                                                |
+| `finalize`         | Function | `() => {}`              | Function to call when the final step is completed. If it returns a promise, the stepper stays locked until it settles. |
+| `beforeNext`       | Function | `null`                  | Guard called with the current step before moving forward. See [Step guards](#step-guards).        |
+| `keepMounted`      | Boolean  | `false`                 | Keeps every step mounted and hides the inactive ones, so their state survives navigation. All steps mount up front. |
+| `compact`          | Boolean or `"auto"` | `"auto"`     | Uses the [compact layout](#compact-layout). `"auto"` turns it on at 640px wide and below.         |
 | `backText`         | String   | `"Back"`                | Text displayed on the back button.                                                                |
 | `nextText`         | String   | `"Next"`                | Text displayed on the next button.                                                                |
 | `doneText`         | String   | `"Done"`                | Text displayed on the done button.                                                                |
-| `loading`          | Boolean  | `false`                 | Indicates whether the final step is in a loading state.                                           |
+| `loading`          | Boolean  | `false`                 | Shows the spinner and locks Back, Next, Done and the step circles.                                |
 | `linear`           | Boolean  | `true`                  | When true, only completed steps can be clicked to jump back. When false, any step can be clicked. |
 | `primaryColor1`    | String   | `"orange"`              | Primary color for the stepper's theme.                                                            |
 | `primaryColor2`    | String   | `"#fff"`                | Secondary color for the stepper's theme.                                                          |
@@ -113,6 +116,43 @@ For a complete example, see the [App.vue](./src/App.vue) file in the repository.
 | Slot            | Description                                                                                                 |
 |-----------------|-------------------------------------------------------------------------------------------------------------|
 | `#1`, `#2`, ... | One named slot per step, matching the tab's position in `tabs`. Its content is shown while that step is active. |
+
+## Step Guards
+
+Use `isValid` when you already know whether a step is valid. Use `beforeNext` when you only find out once the user tries to continue, for example when the server has to check the data:
+
+```js
+const beforeNext = async (step) => {
+  if (step !== 1) return
+  const { available } = await checkUsername(username.value)
+  usernameError.value = available ? '' : 'That username is taken'
+  return available
+}
+```
+
+```vue
+<Steppy v-model:step="step" :tabs="tabs" :before-next="beforeNext" />
+```
+
+- Returning or resolving to `false` keeps the user on the step. Any other result moves on, so a guard that returns nothing never blocks.
+- While a promise is pending, the Next button shows the spinner and Back, Next and the step circles are locked.
+- If the promise rejects, the user stays on the step, the stepper unlocks and the error goes to Vue's `errorHandler`. Catch it yourself if you want to show a message.
+- It runs on Next and on forward jumps with `linear: false`. It doesn't run when moving backwards, or on Done, where `finalize` can do the same job.
+
+`finalize` works the same way: if it returns a promise, the stepper stays locked until it settles, so you don't have to manage `loading` yourself.
+
+## Compact Layout
+
+Below 640px wide, the step titles no longer fit next to each other. Steppy then switches to a compact layout: circles of at most 32px, tighter padding, and one line under the circles with the position, title and description of the current step (for example "2 / 4 Shipping").
+
+The switch depends on the width of the viewport, not of the parent element. If Steppy sits in a narrow column on a wide screen, force it:
+
+```vue
+<Steppy compact />               <!-- always compact -->
+<Steppy :compact="false" />      <!-- never compact -->
+```
+
+In the compact layout, `circleSize` is capped at 32px and `contentMarginTop` is replaced by a 16px margin, because the labels it makes room for are gone.
 
 ## Tab Object Structure
 
